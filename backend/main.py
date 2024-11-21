@@ -1,14 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
 from backend.database import SessionLocal, ToDo
+from backend.model import ToDoCreate
 
 app = FastAPI()
-
-# Pydantic 모델
-class ToDoCreate(BaseModel):
-    title: str
-    description: str = None
 
 # DB 세션 의존성
 def get_db():
