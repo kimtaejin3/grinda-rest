@@ -27,12 +27,9 @@
 
 ```
 grinda-rest/
-├── apps/
-│   ├── web/          # Next.js 프론트엔드
-│   └── server/       # FastAPI 백엔드
-├── packages/
-│   ├── shared/       # 공통 유틸리티
-│   └── ui/          # 공통 UI 컴포넌트
+├── backend/           # FastAPI 백엔드
+├── frontend/          # Next.js 프론트엔드
+├── shared/            # 공통 유틸리티
 └── package.json
 ```
 
