@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import Logo from '../icon/logo';
+import Logo from '../icon/Logo';
 import SearchForm from './SearchForm';
 
 export default function Header() {
