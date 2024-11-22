@@ -1,3 +1,9 @@
+import Cards from '@/components/shared/Cards';
+
 export default function Home() {
-  return <h1>홈페이지</h1>;
+  return (
+    <div className="">
+      <Cards className="mt-3" />
+    </div>
+  );
 }
