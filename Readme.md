@@ -16,6 +16,8 @@
 - React
 - TypeScript
 - Tailwind CSS
+- React query
+- Zustand
 
 ### Infrastructure
 
