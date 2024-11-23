@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1100px] mx-auto px-4">
           <Header />
           {children}
         </div>
