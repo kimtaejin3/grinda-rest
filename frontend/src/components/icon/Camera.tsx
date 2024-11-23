@@ -1,6 +1,14 @@
-export default function Camera() {
+export default function Camera({
+  className,
+  ...props
+}: {
+  className?: string;
+  props?: React.ComponentProps<'svg'>;
+}) {
   return (
     <svg
+      className={className}
+      {...props}
       baseProfile="tiny"
       height="50px"
       id="Layer_1"

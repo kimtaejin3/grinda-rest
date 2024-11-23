@@ -32,7 +32,6 @@ const covers = [
   Cover03,
   Cover04,
   Cover05,
-  Cover06,
 ];
 
 export default function Cards({ className }: { className?: string }) {
@@ -44,26 +43,3 @@ export default function Cards({ className }: { className?: string }) {
     </div>
   );
 }
-// export default function Cards({ className }: { className?: string }) {
-//   return (
-//     <ul
-//       className={$(
-//         'columns-4 gap-2 sm:gap-4 md:columns-5 lg:columns-5 space-y-3',
-//         className
-//       )}
-//     >
-//       {covers.map((cover, index) => (
-//         <li className="" key={index}>
-//           <div className="bg-gray-100 rounded-lg overflow-hidden">
-//             <Image
-//               className="w-full object-cover"
-//               src={cover}
-//               alt="logo"
-//               width={100}
-//             />
-//           </div>
-//         </li>
-//       ))}
-//     </ul>
-//   );
-// }
