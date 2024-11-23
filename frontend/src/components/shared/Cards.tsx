@@ -27,16 +27,20 @@ const covers = [
 
 export default function Cards({ className }: { className?: string }) {
   return (
-    <ul className={$('flex flex-wrap mx-[-0.5rem]', className)}>
+    <ul
+      className={$(
+        'columns-4 gap-2 sm:gap-4 md:columns-5 lg:columns-6 space-y-3',
+        className
+      )}
+    >
       {Array.from({ length: 10 }).map((_, index) => (
-        <li className="w-[20%] px-2 py-2 h-[330px]" key={index}>
-          <div className="bg-gray-100 rounded-lg overflow-hidden h-full flex items-center">
+        <li className="" key={index}>
+          <div className="bg-gray-100 rounded-lg overflow-hidden">
             <Image
               className="w-full object-cover"
               src={covers[index]}
               alt="logo"
               width={100}
-              //   height={100}
             />
           </div>
         </li>
