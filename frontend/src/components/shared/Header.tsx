@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import Logo from '../icon/Logo';
+import NavItem from './NavItem';
 import SearchForm from './SearchForm';
 
 export default function Header() {
@@ -13,9 +14,9 @@ export default function Header() {
             <Logo className="w-6" fill="#e60022" />
           </Link>
         </h1>
-        <nav className="flex gap-7 items-center">
-          <Link href="/">홈</Link>
-          <Link href="/">만들기</Link>
+        <nav className="flex gap-2 items-center">
+          <NavItem href="/">홈</NavItem>
+          <NavItem href="/create">만들기</NavItem>
         </nav>
       </div>
       <SearchForm className="flex-1" />
