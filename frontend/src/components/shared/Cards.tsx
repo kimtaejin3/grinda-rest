@@ -1,5 +1,3 @@
-import Image, { StaticImageData } from 'next/image';
-
 import Cover01 from '@/assets/cover01.jpeg';
 import Cover02 from '@/assets/cover02.jpeg';
 import Cover03 from '@/assets/cover03.jpeg';
@@ -14,7 +12,7 @@ import Cover11 from '@/assets/cover11.jpeg';
 import Cover12 from '@/assets/cover12.jpg';
 import { $ } from '@/lib/core';
 
-import Like from '../icon/Like';
+import Card from './Card';
 
 const covers = [
   Cover01,
@@ -29,44 +27,19 @@ const covers = [
   Cover10,
   Cover11,
   Cover12,
-  Cover07,
-  Cover08,
-  Cover09,
-  Cover10,
-  Cover11,
-  Cover12,
-  Cover10,
-  Cover11,
-  Cover12,
-  Cover07,
-  Cover08,
-  Cover09,
-  Cover10,
+  Cover01,
+  Cover02,
+  Cover03,
+  Cover04,
+  Cover05,
+  Cover06,
 ];
 
 export default function Cards({ className }: { className?: string }) {
   return (
-    <div className={$(`grid grid-cols-2 md:grid-cols-4 gap-4`, className)}>
+    <div className={$(`columns-2 md:columns-4 space-y-5 gap-4`, className)}>
       {covers.map((cover, index) => (
-        <div
-          key={index}
-          className="rounded-lg overflow-hidden cursor-pointer h-[250px] relative hover:scale-105 transition-all duration-300"
-        >
-          <div className="h-full relative">
-            <Image
-              className=" h-full object-cover"
-              src={cover as StaticImageData}
-              alt=""
-            />
-          </div>
-          <div className="absolute flex justify-between z-10 bottom-0 bg-black text-white opacity-60 right-0 left-0 py-2 px-4">
-            <p className="text-sm">짱구는 잘말려</p>
-            <div className="flex items-center gap-1">
-              <Like />
-              <p className="text-sm">12</p>
-            </div>
-          </div>
-        </div>
+        <Card key={index} cover={cover} />
       ))}
     </div>
   );
