@@ -9,20 +9,17 @@ export default async function Home({
 }) {
   const page = searchParams.page ?? '1';
 
-  console.log(page, typeof page);
-
   return (
-    <div className="pb-10">
+    <div className="pb-40">
       <Cards className="mt-3" />
-      <div className="mt-10 flex justify-between">
-        <div></div>
+      <div className="mt-10 relative">
         <Link
-          className="border-[0.1em] border-black rounded-full py-2 px-4"
+          className="absolute left-[50%] translate-x-[-50%] border-[0.1em] border-black rounded-full py-2 px-4"
           href={`?page=${parseInt(page) + 1}`}
         >
           다음 페이지
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 absolute right-0">
           <Link href={`?page=${parseInt(page) - 1}`}>{'<'}</Link>
           <div>
             <input
