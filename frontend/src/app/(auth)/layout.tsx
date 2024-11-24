@@ -10,7 +10,7 @@ export default function Layout({
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <Link href="/">
-        <Logo className="w-12 h-12 mb-8" fill="#e60022" />
+        <Logo className="w-12 h-12 mb-8" />
       </Link>
       {children}
     </div>

@@ -11,7 +11,7 @@ export default function Header() {
         <h1>
           <span className="sr-only">그린다레스트 로고</span>
           <Link href="/">
-            <Logo className="w-6" fill="#e60022" />
+            <Logo className="w-6" />
           </Link>
         </h1>
         <nav className="flex gap-2 items-center">
