@@ -4,3 +4,7 @@ from pydantic import BaseModel
 class ToDoCreate(BaseModel):
     title: str
     description: str = None
+
+class UserCreate(BaseModel):
+    username: str
+    password: str
