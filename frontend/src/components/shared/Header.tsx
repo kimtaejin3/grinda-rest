@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import Logo from '../icon/Logo';
-import Profile from '../icon/Profile';
 import NavItem from './NavItem';
+import ProfileButtonWrap from './ProfileButtonWrap';
 import SearchForm from './SearchForm';
 
 export default function Header() {
@@ -21,9 +21,7 @@ export default function Header() {
         </nav>
       </div>
       <SearchForm className="flex-1" />
-      <button>
-        <Profile />
-      </button>
+      <ProfileButtonWrap />
     </header>
   );
 }
