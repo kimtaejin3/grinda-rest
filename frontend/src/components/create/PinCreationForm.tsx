@@ -123,6 +123,7 @@ export default function PinCreationForm({ className }: { className?: string }) {
             <button
               onClick={(e) => {
                 e.preventDefault();
+                if (form.categories.includes(form.category)) return;
                 setForm({
                   ...form,
                   categories: [...form.categories, form.category],
