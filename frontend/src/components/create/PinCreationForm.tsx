@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { $ } from '@/lib/core';
+import { createClient } from '@/utils/supabase/client';
 
 import Box from '../icon/Box';
 import Camera from '../icon/Camera';
@@ -23,6 +24,8 @@ export default function PinCreationForm({ className }: { className?: string }) {
   const [dragActive, setDragActive] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState(initialForm);
+
+  const supabase = createClient();
 
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -49,12 +52,33 @@ export default function PinCreationForm({ className }: { className?: string }) {
     setFiles(Array.from(files));
   };
 
-  if (dragActive) {
-    console.log('dragActive');
-  }
+  const insertImage = async (file: File) => {
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(file.name.split('.')[0], file);
+    try {
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    console.log('data1:', data);
+    return data;
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(form);
+    const data2 = await insertImage(files[0]);
+
+    // 여기서 url을 받을 수 있으니 이제 요청 보낼 수 있게 되었음!! ㅎㅎ
+    console.log('data2:', data2);
+  };
 
   return (
-    <form className={$(className, 'flex gap-10')}>
+    <form className={$(className, 'flex gap-10')} onSubmit={handleSubmit}>
       <div>
         <label
           htmlFor="pin"
