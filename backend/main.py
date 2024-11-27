@@ -10,6 +10,7 @@ from backend.model import ToDoCreate, UserCreate
 from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 # 시크릿 키와 알고리즘 설정
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -17,6 +18,15 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
+
+# CORS 설정 추가
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 도메인 허용 (보안상 필요에 따라 특정 도메인으로 제한)
+    allow_credentials=True,
+    allow_methods=["*"],  # 모든 HTTP 메서드 허용
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 # 비밀번호 해싱 설정
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
