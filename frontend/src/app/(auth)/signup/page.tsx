@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useSignUpMutation } from '@/store/auth';
@@ -15,7 +15,9 @@ const INITIAL_FORM = {
 export default function Page() {
   const [form, setForm] = useState(INITIAL_FORM);
 
-  const [signUp, {isError, isSuccess}] = useSignUpMutation();
+  const [signUp, {isError, isSuccess, error}] = useSignUpMutation();
+
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,10 +26,17 @@ export default function Page() {
       alert('아이디와 비밀번호 및 비밀번호 확인을 모두 입력해주세요.');
       return;
     }
+
+    if (password !== passwordCheck) {
+      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
     signUp({ username, password });
 
     if (isError) {
       alert('회원가입에 실패했습니다.');
+      console.log('error',error);
     } else if (isSuccess) {
       alert('회원가입에 성공했습니다.');
       router.push('/signin');
