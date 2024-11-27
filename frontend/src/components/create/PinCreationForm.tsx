@@ -1,21 +1,79 @@
+'use client';
+
+import { useState } from 'react';
+
 import { $ } from '@/lib/core';
 
+import Box from '../icon/Box';
 import Camera from '../icon/Camera';
 
 export default function PinCreationForm({ className }: { className?: string }) {
+  const [dragActive, setDragActive] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = () => {
+    setDragActive(false);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    setDragActive(false);
+    console.log();
+    const files = event.dataTransfer.files;
+    // 파일 처리 로직 추가
+    console.log(files);
+    setFiles(Array.from(files));
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+    setFiles(Array.from(files));
+  };
+
+  if (dragActive) {
+    console.log('dragActive');
+  }
+
   return (
     <form className={$(className, 'flex gap-10')}>
       <div>
         <label
           htmlFor="pin"
-          className="cursor-pointer shrink-0 w-[300px] h-[400px]  bg-gray-200 rounded-2xl flex justify-center items-center"
+          className="cursor-pointer overflow-hidden shrink-0 w-[300px] h-[400px]  bg-gray-200 rounded-2xl flex justify-center items-center"
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onDragLeave={handleDragLeave}
         >
-          <div className="flex flex-col items-center">
-            <Camera />
-            <p className="text-center">파일을 선택하세요</p>
-          </div>
+          {files.length > 0 && (
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={URL.createObjectURL(files[0])} alt="uploaded" />
+            </div>
+          )}
+          {files.length === 0 && (
+            <div className="flex flex-col items-center">
+              {!dragActive ? <Camera /> : <Box className="w-10 h-10" />}
+              <p className="text-center">
+                파일을 선택하거나
+                <br /> 여기로 끌어다 놓으세요.
+              </p>
+            </div>
+          )}
         </label>
-        <input id="pin" type="file" accept="image/*" className="hidden" />
+        <input
+          id="pin"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          multiple={false}
+          onChange={handleFileChange}
+        />
       </div>
       <div className="flex-1 flex flex-col gap-6">
         <div>
