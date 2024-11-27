@@ -7,9 +7,22 @@ import { $ } from '@/lib/core';
 import Box from '../icon/Box';
 import Camera from '../icon/Camera';
 
+const initialForm: {
+  title: string;
+  description: string;
+  category: string;
+  categories: string[];
+} = {
+  title: '',
+  description: '',
+  category: '',
+  categories: [],
+};
+
 export default function PinCreationForm({ className }: { className?: string }) {
   const [dragActive, setDragActive] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+  const [form, setForm] = useState(initialForm);
 
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -82,6 +95,8 @@ export default function PinCreationForm({ className }: { className?: string }) {
             className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
             id="title"
             type="text"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
         </div>
         <div>
@@ -91,6 +106,8 @@ export default function PinCreationForm({ className }: { className?: string }) {
           <textarea
             id="description"
             className="mt-2 min-h-[100px] resize-none border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
         </div>
         <div>
@@ -100,10 +117,43 @@ export default function PinCreationForm({ className }: { className?: string }) {
               className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
               id="title"
               type="text"
+              value={form.category}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
             />
-            <button className="shrink-0 bg-gray-500 mt-2 h-9 text-white px-4 rounded-xl">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setForm({
+                  ...form,
+                  categories: [...form.categories, form.category],
+                  category: '',
+                });
+              }}
+              className="shrink-0 bg-gray-500 mt-2 h-9 text-white px-4 rounded-xl"
+            >
               추가
             </button>
+          </div>
+          <div className="mt-4 flex gap-2 flex-wrap">
+            {form.categories.map((category) => (
+              <div
+                className="bg-red-400 py-1 px-2 flex items-center gap-2 text-sm rounded-md text-white"
+                key={category}
+              >
+                {category}
+                <button
+                  onClick={() => {
+                    setForm({
+                      ...form,
+                      categories: form.categories.filter((c) => c !== category),
+                    });
+                  }}
+                  className="text-xs"
+                >
+                  x
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
