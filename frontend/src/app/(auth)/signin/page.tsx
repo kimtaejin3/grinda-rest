@@ -1,15 +1,53 @@
+"use client"
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { useSignInMutation } from '@/store/auth';
+
 
 export default function Page() {
+  const [form, setForm] = useState({
+    username: '',
+    password: '',
+  });
+
+  const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
+
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(form);
+    const { username, password } = form;
+    if (!username || !password) {
+      alert('닉네임과 비밀번호를 모두 입력해주세요.');
+      return;
+    }
+    signIn({ username, password });
+
+    if (isError) {
+      alert('로그인에 실패했습니다.');
+      console.log(error);
+    } else if (isSuccess) {
+      alert('로그인에 성공했습니다.');
+      console.log('data:', data);
+      localStorage.setItem('accessToken', data.access_token);
+      router.push('/');
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="nickname">닉네임</label>
+        <label htmlFor="username">아이디</label>
         <input
           className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
           type="text"
-          id="nickname"
-          placeholder="닉네임을 입력해주세요"
+          id="username"
+          placeholder="아이디를 입력해주세요"
+          onChange={(e) => setForm({ ...form, username: e.target.value })}
         />
       </div>
       <div className="mt-8">
@@ -19,6 +57,7 @@ export default function Page() {
           type="text"
           id="password"
           placeholder="비밀번호를 입력해주세요"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
       </div>
 
