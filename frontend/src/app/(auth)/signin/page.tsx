@@ -1,8 +1,26 @@
+"use client"
+
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Page() {
+  const [form, setForm] = useState({
+    nickname: '',
+    password: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(form);
+    const { nickname, password } = form;
+    if (!nickname || !password) {
+      alert('닉네임과 비밀번호를 모두 입력해주세요.');
+      return;
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="nickname">닉네임</label>
         <input
@@ -10,6 +28,7 @@ export default function Page() {
           type="text"
           id="nickname"
           placeholder="닉네임을 입력해주세요"
+          onChange={(e) => setForm({ ...form, nickname: e.target.value })}
         />
       </div>
       <div className="mt-8">
@@ -19,6 +38,7 @@ export default function Page() {
           type="text"
           id="password"
           placeholder="비밀번호를 입력해주세요"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
       </div>
 
