@@ -16,8 +16,7 @@ pinterest와 pixabay를 모티브로 한 이미지 공유 플랫폼입니다. �
 - React
 - TypeScript
 - Tailwind CSS
-- React query
-- Zustand
+- Redux Toolkit ( + RTK Query)
 
 ### Infrastructure
 
@@ -38,7 +37,7 @@ grinda-rest/
 ## ✨ 주요 기능
 
 - 🖼️ 이미지 업로드 및 공유
-- 👤 사용자 인증 (Supabase Auth)
+- 👤 사용자 인증
 - 💾 이미지 저장 및 관리
 - 🔍 이미지 검색
 - 💕 좋아요 및 저장 기능
