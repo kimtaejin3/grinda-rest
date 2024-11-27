@@ -13,7 +13,7 @@ export default function Page() {
     password: '',
   });
 
-  const [signIn, {isError, isSuccess, error}] = useSignInMutation();
+  const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
 
   const router = useRouter();
 
@@ -32,6 +32,8 @@ export default function Page() {
       console.log(error);
     } else if (isSuccess) {
       alert('로그인에 성공했습니다.');
+      console.log('data:', data);
+      localStorage.setItem('accessToken', data.access_token);
       router.push('/');
     }
   };
