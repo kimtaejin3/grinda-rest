@@ -33,7 +33,6 @@ export default function Page() {
     }
 
     signUp({ username, password });
-
     if (isError) {
       alert('회원가입에 실패했습니다.');
       console.log('error',error);

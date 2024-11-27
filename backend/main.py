@@ -106,7 +106,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 # 토큰 발급 엔드포인트
 @app.post("/token")
 async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    form_data: UserCreate,
     db: Session = Depends(get_db)
 ) -> dict:
     user = authenticate_user(db, form_data.username, form_data.password)

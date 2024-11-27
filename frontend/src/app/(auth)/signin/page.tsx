@@ -1,7 +1,10 @@
 "use client"
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { useSignInMutation } from '@/store/auth';
 
 
 export default function Page() {
@@ -10,6 +13,9 @@ export default function Page() {
     password: '',
   });
 
+  const [signIn, {isError, isSuccess, error}] = useSignInMutation();
+
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +24,15 @@ export default function Page() {
     if (!username || !password) {
       alert('닉네임과 비밀번호를 모두 입력해주세요.');
       return;
+    }
+    signIn({ username, password });
+
+    if (isError) {
+      alert('로그인에 실패했습니다.');
+      console.log(error);
+    } else if (isSuccess) {
+      alert('로그인에 성공했습니다.');
+      router.push('/');
     }
   };
 
