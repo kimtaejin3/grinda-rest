@@ -3,17 +3,19 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
+
 export default function Page() {
   const [form, setForm] = useState({
-    nickname: '',
+    username: '',
     password: '',
   });
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(form);
-    const { nickname, password } = form;
-    if (!nickname || !password) {
+    const { username, password } = form;
+    if (!username || !password) {
       alert('닉네임과 비밀번호를 모두 입력해주세요.');
       return;
     }
@@ -22,13 +24,13 @@ export default function Page() {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="nickname">닉네임</label>
+        <label htmlFor="username">아이디</label>
         <input
           className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
           type="text"
-          id="nickname"
-          placeholder="닉네임을 입력해주세요"
-          onChange={(e) => setForm({ ...form, nickname: e.target.value })}
+          id="username"
+          placeholder="아이디를 입력해주세요"
+          onChange={(e) => setForm({ ...form, username: e.target.value })}
         />
       </div>
       <div className="mt-8">

@@ -1,33 +1,69 @@
+"use client"
+
 import Link from 'next/link';
+import router from 'next/router';
+import { useState } from 'react';
+
+import { useSignUpMutation } from '@/store/auth';
+
+const INITIAL_FORM = {
+  username: '',
+  password: '',
+  passwordCheck: '',
+};
 
 export default function Page() {
+  const [form, setForm] = useState(INITIAL_FORM);
+
+  const [signUp, {isError, isSuccess}] = useSignUpMutation();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { username, password, passwordCheck } = form;
+    if (!username || !password || !passwordCheck) {
+      alert('아이디와 비밀번호 및 비밀번호 확인을 모두 입력해주세요.');
+      return;
+    }
+    signUp({ username, password });
+
+    if (isError) {
+      alert('회원가입에 실패했습니다.');
+    } else if (isSuccess) {
+      alert('회원가입에 성공했습니다.');
+      router.push('/signin');
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="nickname">닉네임</label>
+        <label htmlFor="username">아이디</label>
         <input
           className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
           type="text"
-          id="nickname"
-          placeholder="닉네임을 입력해주세요"
+          id="username"
+          placeholder="아이디 입력해주세요"
+          onChange={(e) => setForm({ ...form, username: e.target.value })}
         />
       </div>
       <div className="mt-8">
         <label htmlFor="password">비밀번호</label>
         <input
           className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
-          type="text"
+          type="password"
           id="password"
           placeholder="비밀번호를 입력해주세요"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
       </div>
       <div className="mt-8">
         <label htmlFor="password">비밀번호 확인</label>
         <input
           className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
-          type="text"
+          type="password"
           id="password"
           placeholder="비밀번호를 한번 더 입력해주세요"
+          onChange={(e) => setForm({ ...form, passwordCheck: e.target.value })}
         />
       </div>
 
