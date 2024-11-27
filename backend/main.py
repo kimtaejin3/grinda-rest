@@ -103,6 +103,10 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     
     return {"access_token": access_token, "token_type": "bearer"}
 
+@app.get("/users/me")
+async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
+    return current_user
+
 # 토큰 발급 엔드포인트
 @app.post("/token")
 async def login_for_access_token(
