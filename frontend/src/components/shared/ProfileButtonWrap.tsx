@@ -61,10 +61,10 @@ export default function ProfileButtonWrap() {
           </div>
         ) : (
           <>
-            <Link className="py-2 block hover:bg-gray-100" href="/signin">
+            <Link className="py-2 block hover:bg-gray-100 text-center" href="/signin">
               로그인
             </Link>
-            <Link className="py-2 block hover:bg-gray-100" href="/signup">
+            <Link className="py-2 block hover:bg-gray-100 text-center" href="/signup">
               회원가입
             </Link>
           </>
