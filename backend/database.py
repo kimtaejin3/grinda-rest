@@ -25,7 +25,7 @@ class Images(Base):
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)
     categories = Column(ARRAY(String), nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     user = relationship("User", back_populates="images")
     likes = relationship("Likes", back_populates="image")
     created_at = Column(DateTime, default=datetime.now)
