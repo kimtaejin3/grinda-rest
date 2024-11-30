@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from typing import Annotated
+from typing import Annotated, List
 
 import jwt
 from fastapi import FastAPI, Depends, HTTPException, status
@@ -146,8 +146,8 @@ async def read_my_images(current_user: Annotated[User, Depends(get_current_user)
 
 # 이미지 업로드
 @app.post("/image/")
-async def create_image(image_url: str, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
-    new_image = Images(image_url=image_url, user_id=current_user.id)
+async def create_image(image_url: str, title: str, content: str, categories: List[str], current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    new_image = Images(image_url=image_url, title=title, content=content, categories=categories, user_id=current_user.id)
     db.add(new_image)
     db.commit()
     db.refresh(new_image)
