@@ -6,7 +6,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from backend.database import SessionLocal, User, Images, Likes
-from backend.model import ToDoCreate, UserCreate
+from backend.model import ToDoCreate, UserCreate, ImageCreate
 from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError
 from pydantic import BaseModel
@@ -146,7 +146,7 @@ async def read_my_images(current_user: Annotated[User, Depends(get_current_user)
 
 # 이미지 업로드
 @app.post("/image/")
-async def create_image(image_url: str, title: str, content: str, categories: List[str], current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+async def create_image(image: ImageCreate, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     new_image = Images(image_url=image_url, title=title, content=content, categories=categories, user_id=current_user.id)
     db.add(new_image)
     db.commit()

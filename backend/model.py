@@ -1,5 +1,5 @@
-
 from pydantic import BaseModel
+from typing import List
 
 # Pydantic 모델
 class ToDoCreate(BaseModel):
@@ -9,3 +9,9 @@ class ToDoCreate(BaseModel):
 class UserCreate(BaseModel):
     username: str
     password: str
+
+class ImageCreate(BaseModel):
+    image_url: str
+    title: str
+    content: str
+    categories: List[str]
