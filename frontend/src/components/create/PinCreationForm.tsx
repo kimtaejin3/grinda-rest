@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
 
 import { $ } from '@/lib/core';
+import { usePostImageMutation } from '@/store/image';
 import { createClient } from '@/utils/supabase/client';
 
 import Box from '../icon/Box';
@@ -10,12 +12,12 @@ import Camera from '../icon/Camera';
 
 const initialForm: {
   title: string;
-  description: string;
+  content: string;
   category: string;
   categories: string[];
 } = {
   title: '',
-  description: '',
+  content: '',
   category: '',
   categories: [],
 };
@@ -24,8 +26,16 @@ export default function PinCreationForm({ className }: { className?: string }) {
   const [dragActive, setDragActive] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState(initialForm);
+  const [postImage, { isLoading, error }] = usePostImageMutation();
+  const router = useRouter();
 
   const supabase = createClient();
+  const image_preview = useMemo(() => {
+    if (files.length > 0) {
+      return URL.createObjectURL(files[0]);
+    }
+    return null;
+  }, [files]);
 
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -53,28 +63,57 @@ export default function PinCreationForm({ className }: { className?: string }) {
   };
 
   const insertImage = async (file: File) => {
-    const { data, error } = await supabase.storage
+    try{
+      const { data, error } = await supabase.storage
       .from('images')
       .upload(file.name.split('.')[0], file);
-    try {
-      if (error) {
-        throw error;
+      try {
+        if (error) {
+          throw error;
+        }
+      } catch (error) {
+        console.error(error);
       }
+      
+      return data;
     } catch (error) {
+      alert('이미지 업로드 해주세요.');
       console.error(error);
     }
-
-    console.log('data1:', data);
-    return data;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(form);
+    if (!localStorage.getItem('accessToken')) {
+      alert('로그인 후 이용해주세요.');
+      router.push('/signin');
+      return;
+    }
+
     const data2 = await insertImage(files[0]);
+    const { title, content, categories } = form;
+
+    if (!data2) {
+      return;
+    }
+    if (title === '' || content === '' || categories.length === 0) {
+      alert('제목, 설명, 카테고리를 1개 이상 입력해주세요.');
+      return;
+    }
 
     // 여기서 url을 받을 수 있으니 이제 요청 보낼 수 있게 되었음!! ㅎㅎ
     console.log('data2:', data2);
+    const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${data2.path}`;
+
+
+    if (isLoading) return;
+    console.log('asifjoweijowiefo')
+    const res = await postImage({ image_url, title, content, categories });
+    if (error) {
+      alert('게시에 실패했습니다.');
+      console.error(error);
+    }
+    console.log(res);
   };
 
   return (
@@ -90,7 +129,7 @@ export default function PinCreationForm({ className }: { className?: string }) {
           {files.length > 0 && (
             <div className="relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={URL.createObjectURL(files[0])} alt="uploaded" />
+              {image_preview && <img src={image_preview} alt="uploaded" />}
             </div>
           )}
           {files.length === 0 && (
@@ -130,8 +169,8 @@ export default function PinCreationForm({ className }: { className?: string }) {
           <textarea
             id="description"
             className="mt-2 min-h-[100px] resize-none border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
-            value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            value={form.content}
+            onChange={(e) => setForm({ ...form, content: e.target.value })}
           />
         </div>
         <div>
