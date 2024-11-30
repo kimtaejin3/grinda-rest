@@ -5,7 +5,7 @@ import jwt
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from backend.database import SessionLocal, User
+from backend.database import SessionLocal, User, Images, Likes
 from backend.model import ToDoCreate, UserCreate
 from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError
@@ -125,3 +125,36 @@ async def login_for_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+# 이미지 목록 읽기
+@app.get("/images/")
+async def read_images(skip: int = 0, limit: int = 17, db: Session = Depends(get_db)):
+    images = db.query(Images).offset(skip).limit(limit).all()
+    return images
+
+# 내가 좋아요한 이미지 목록 읽기
+@app.get("/images/liked/")
+async def read_liked_images(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    liked_images = db.query(Images).join(Likes).filter(Likes.user_id == current_user.id).all()
+    return liked_images
+
+# 내가 업로드한 이미지 목록 읽기
+@app.get("/images/my/")
+async def read_my_images(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    my_images = db.query(Images).filter(Images.user_id == current_user.id).all()
+    return my_images
+
+# 이미지 업로드
+@app.post("/image/")
+async def create_image(image_url: str, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    new_image = Images(image_url=image_url, user_id=current_user.id)
+    db.add(new_image)
+    db.commit()
+    db.refresh(new_image)
+    return new_image
+
+@app.delete("/image/{image_id}")
+async def delete_image(image_id: int, db: Session = Depends(get_db)):
+    db.query(Images).filter(Images.id == image_id).delete()
+    db.commit()
+    return {"message": "Image deleted"}

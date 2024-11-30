@@ -13,6 +13,24 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     password = Column(String, nullable=False)
+    images = relationship("Images", back_populates="user")
+    likes = relationship("Likes", back_populates="user")
+
+class Images(Base):
+    __tablename__ = "images"
+    id = Column(Integer, primary_key=True, index=True)
+    image_url = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="images")
+    likes = relationship("Likes", back_populates="image")
+
+class Likes(Base):
+    __tablename__ = "likes"
+    id = Column(Integer, primary_key=True, index=True)
+    image_id = Column(Integer, ForeignKey("images.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    image = relationship("Images", back_populates="likes")
+    user = relationship("User", back_populates="likes")
 
 # 데이터베이스 초기화
 Base.metadata.create_all(bind=engine)
