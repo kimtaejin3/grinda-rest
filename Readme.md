@@ -93,15 +93,14 @@ pnpm dev:server
 - users
 
   - id
-  - email
   - username
-  - created_at
+  - password
 
 - images
 
   - id
   - user_id
-  - url
+  - image_url
   - description
   - created_at
 
@@ -110,4 +109,3 @@ pnpm dev:server
   - id
   - user_id
   - image_id
-  - created_at
