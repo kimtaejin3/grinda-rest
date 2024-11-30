@@ -158,3 +158,26 @@ async def delete_image(image_id: int, db: Session = Depends(get_db)):
     db.query(Images).filter(Images.id == image_id).delete()
     db.commit()
     return {"message": "Image deleted"}
+
+# 좋아요 추가
+@app.post("/like/{image_id}")
+async def create_like(image_id: int, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    new_like = Likes(image_id=image_id, user_id=current_user.id)
+    db.add(new_like)
+    db.commit()
+    db.refresh(new_like)
+    return new_like
+
+# 좋아요 삭제
+@app.delete("/like/{image_id}")
+async def delete_like(image_id: int, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    like = db.query(Likes).filter(Likes.image_id == image_id, Likes.user_id == current_user.id).first()
+    if like:
+        db.delete(like)
+        db.commit()
+        return {"message": "Like deleted"}
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Like not found"
+        )
