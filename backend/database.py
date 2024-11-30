@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import ARRAY
 
 DATABASE_URL = "postgresql://postgres.gmpgjtjmalohyjsespkr:qPxNCeULULXtdEzN@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
 
@@ -21,6 +22,9 @@ class Images(Base):
     __tablename__ = "images"
     id = Column(Integer, primary_key=True, index=True)
     image_url = Column(String, nullable=False)
+    title = Column(String, nullable=False)
+    content = Column(String, nullable=False)
+    categories = Column(ARRAY(String), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="images")
     likes = relationship("Likes", back_populates="image")
