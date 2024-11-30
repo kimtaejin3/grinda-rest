@@ -24,6 +24,8 @@ export default function ProfileButtonWrap() {
     }
   }, []);
 
+  console.log('isOpen', isOpen);
+
   return (
     <div ref={wrapperRef} className="relative z-50">
       <button onClick={() => setIsOpen(!isOpen)}>
@@ -31,7 +33,7 @@ export default function ProfileButtonWrap() {
       </button>
       <Popover
         isOpen={isOpen}
-        className="absolute top-9 bg-white left-0 w-[150px] rounded-md shadow-lg overflow-hidden"
+        className="absolute top-9 bg-white right-0 w-[150px] rounded-md shadow-lg overflow-hidden"
       >
         {isLogin ? (
           <div className="">
