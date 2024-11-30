@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
+from datetime import datetime
 
 DATABASE_URL = "postgresql://postgres.gmpgjtjmalohyjsespkr:qPxNCeULULXtdEzN@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
 
@@ -23,6 +24,7 @@ class Images(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="images")
     likes = relationship("Likes", back_populates="image")
+    created_at = Column(DateTime, default=datetime.now)
 
 class Likes(Base):
     __tablename__ = "likes"
