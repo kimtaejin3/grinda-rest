@@ -24,8 +24,6 @@ export default function ProfileButtonWrap() {
     }
   }, []);
 
-  console.log('isOpen', isOpen);
-
   return (
     <div ref={wrapperRef} className="relative z-50">
       <button onClick={() => setIsOpen(!isOpen)}>
@@ -63,10 +61,16 @@ export default function ProfileButtonWrap() {
           </div>
         ) : (
           <>
-            <Link className="py-2 block hover:bg-gray-100 text-center" href="/signin">
+            <Link
+              className="py-2 block hover:bg-gray-100 text-center"
+              href="/signin"
+            >
               로그인
             </Link>
-            <Link className="py-2 block hover:bg-gray-100 text-center" href="/signup">
+            <Link
+              className="py-2 block hover:bg-gray-100 text-center"
+              href="/signup"
+            >
               회원가입
             </Link>
           </>

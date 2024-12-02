@@ -63,10 +63,10 @@ export default function PinCreationForm({ className }: { className?: string }) {
   };
 
   const insertImage = async (file: File) => {
-    try{
+    try {
       const { data, error } = await supabase.storage
-      .from('images')
-      .upload(file.name.split('.')[0], file);
+        .from('images')
+        .upload(file.name.split('.')[0], file);
       try {
         if (error) {
           throw error;
@@ -74,7 +74,7 @@ export default function PinCreationForm({ className }: { className?: string }) {
       } catch (error) {
         console.error(error);
       }
-      
+
       return data;
     } catch (error) {
       alert('이미지 업로드 해주세요.');
@@ -105,15 +105,15 @@ export default function PinCreationForm({ className }: { className?: string }) {
     console.log('data2:', data2);
     const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${data2.path}`;
 
-
     if (isLoading) return;
-    console.log('asifjoweijowiefo')
+    console.log('asifjoweijowiefo');
     const res = await postImage({ image_url, title, content, categories });
     if (error) {
       alert('게시에 실패했습니다.');
       console.error(error);
     }
     console.log(res);
+    router.push('/');
   };
 
   return (
