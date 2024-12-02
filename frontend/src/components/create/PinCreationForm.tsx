@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import { $ } from '@/lib/core';
-import { usePostImageMutation } from '@/store/image';
+import { useGetImagesQuery, usePostImageMutation } from '@/store/image';
 import { createClient } from '@/utils/supabase/client';
 
 import Box from '../icon/Box';
@@ -28,6 +28,7 @@ export default function PinCreationForm({ className }: { className?: string }) {
   const [form, setForm] = useState(initialForm);
   const [postImage, { isLoading, error }] = usePostImageMutation();
   const router = useRouter();
+  const { refetch } = useGetImagesQuery();
 
   const supabase = createClient();
   const image_preview = useMemo(() => {
@@ -111,6 +112,8 @@ export default function PinCreationForm({ className }: { className?: string }) {
     if (error) {
       alert('게시에 실패했습니다.');
       console.error(error);
+    } else {
+      refetch();
     }
     console.log(res);
     router.push('/');
