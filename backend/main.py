@@ -2,15 +2,16 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated, List
 
 import jwt
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from backend.database import SessionLocal, User, Images, Likes
 from backend.model import ToDoCreate, UserCreate, ImageCreate
 from passlib.context import CryptContext
-from jwt.exceptions import InvalidTokenError
+from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
 # 시크릿 키와 알고리즘 설정
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -45,11 +46,11 @@ def get_db():
 # JWT 토큰 생성 함수
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
+    # if expires_delta:
+    #     expire = datetime.now(timezone.utc) + expires_delta
+    # else:
+    #     expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+    # to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
@@ -181,3 +182,27 @@ async def delete_like(image_id: int, current_user: Annotated[User, Depends(get_c
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Like not found"
         )
+
+# class TokenValidationMiddleware(BaseHTTPMiddleware):
+#     async def dispatch(self, request: Request, call_next):
+#         try:
+#             # 토큰 검증 로직
+#             auth_header = request.headers.get("Authorization")
+#             if auth_header is None:
+#                 return Response(status_code=401, content="Authorization header missing.")
+            
+#             token = auth_header.split(" ")[1]
+#             payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#             # 토큰이 유효한 경우 다음 미들웨어 또는 엔드포인트로 요청 전달
+#             response = await call_next(request)
+#             return response
+#         except ExpiredSignatureError:
+#             # 토큰이 만료된 경우 401 대신 다른 상태 코드 반환
+#             return Response(status_code=403, content="Token expired, please refresh.")
+#         except InvalidTokenError:
+#             # 다른 토큰 오류 처리
+#             print("Invalid token.")
+#             return Response(status_code=401, content="Invalid token.")
+
+# # 미들웨어 추가
+# app.add_middleware(TokenValidationMiddleware)
