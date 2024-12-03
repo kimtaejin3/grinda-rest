@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:server": "source ./backend/venv/bin/activate && uvicorn backend.main:app --reload",
+    "dev:client": "cd ./frontend && npx next dev",
+    "dev": "concurrently \"pnpm run dev:server\" \"pnpm run dev:client\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
 }
