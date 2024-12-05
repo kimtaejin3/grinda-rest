@@ -44,3 +44,4 @@ const injectedRtkApi = baseApi.injectEndpoints({
 });
 
 export const { usePostImageMutation, useGetImagesQuery } = injectedRtkApi;
+export {injectedRtkApi};
