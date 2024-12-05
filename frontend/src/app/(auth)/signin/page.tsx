@@ -1,10 +1,13 @@
 "use client"
 
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { useSignInMutation } from '@/store/auth';
+import { signIn } from '@/apis/auth';
+
+// import { useSignInMutation } from '@/store/auth';
 
 
 export default function Page() {
@@ -13,7 +16,10 @@ export default function Page() {
     password: '',
   });
 
-  const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
+  // const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
+  const { mutate: signInMutation, isError, isSuccess, error, data } = useMutation({
+    mutationFn: ({username, password}: {username: string, password: string}) => signIn(username, password),
+  });
 
   const router = useRouter();
 
@@ -25,7 +31,7 @@ export default function Page() {
       alert('닉네임과 비밀번호를 모두 입력해주세요.');
       return;
     }
-    signIn({ username, password });
+    signInMutation({ username, password });
 
     if (isError) {
       alert('로그인에 실패했습니다.');
