@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-import Cards from '@/components/shared/Cards';
+import CardsHydrate from '@/components/shared/CardsHydrate';
 import CardsLoading from '@/components/shared/CardsLoading';
 
 export default async function Home({
@@ -12,8 +13,9 @@ export default async function Home({
 
   return (
     <div className="pb-40">
-      {/* <Cards className="mt-3" /> */}
-      <CardsLoading className="mt-3" count={17} />
+      <Suspense fallback={<CardsLoading className="mt-3" count={17} />}>
+        <CardsHydrate />
+      </Suspense>
       <div className="mt-10 relative">
         <Link
           className="absolute left-[50%] translate-x-[-50%] border-[0.1em] border-black rounded-full py-2 px-4"
