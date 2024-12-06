@@ -1,6 +1,6 @@
 'use client';
 
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
@@ -28,7 +28,7 @@ export default function PinCreationForm({ className }: { className?: string }) {
   const router = useRouter();
   const supabase = createClient();
 
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const [dragActive, setDragActive] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
