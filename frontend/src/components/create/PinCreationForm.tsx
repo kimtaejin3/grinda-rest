@@ -6,7 +6,6 @@ import { useMemo, useState } from 'react';
 
 import { postImage } from '@/apis/image';
 import { $ } from '@/lib/core';
-// import { useGetImagesQuery, usePostImageMutation } from '@/store/image';
 import { createClient } from '@/utils/supabase/client';
 
 import Box from '../icon/Box';
@@ -122,8 +121,6 @@ export default function PinCreationForm({ className }: { className?: string }) {
       return;
     }
 
-    // 여기서 url을 받을 수 있으니 이제 요청 보낼 수 있게 되었음!! ㅎㅎ
-    console.log('data2:', data2);
     const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${data2.path}`;
 
     if (isPending) return;
