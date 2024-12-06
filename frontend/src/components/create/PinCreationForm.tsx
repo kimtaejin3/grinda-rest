@@ -1,10 +1,12 @@
 'use client';
 
+import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
+import { postImage } from '@/apis/image';
 import { $ } from '@/lib/core';
-import { useGetImagesQuery, usePostImageMutation } from '@/store/image';
+// import { useGetImagesQuery, usePostImageMutation } from '@/store/image';
 import { createClient } from '@/utils/supabase/client';
 
 import Box from '../icon/Box';
@@ -23,14 +25,32 @@ const initialForm: {
 };
 
 export default function PinCreationForm({ className }: { className?: string }) {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const queryClient = new QueryClient();
+
   const [dragActive, setDragActive] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState(initialForm);
-  const [postImage, { isLoading, error }] = usePostImageMutation();
-  const router = useRouter();
-  const { refetch } = useGetImagesQuery();
 
-  const supabase = createClient();
+  const { mutate, isError, isPending } = useMutation({
+    mutationFn: ({
+      image_url,
+      title,
+      content,
+      categories,
+    }: {
+      image_url: string;
+      title: string;
+      content: string;
+      categories: string[];
+    }) => postImage(image_url, title, content, categories),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['images'] });
+    },
+  });
+
   const image_preview = useMemo(() => {
     if (files.length > 0) {
       return URL.createObjectURL(files[0]);
@@ -106,15 +126,15 @@ export default function PinCreationForm({ className }: { className?: string }) {
     console.log('data2:', data2);
     const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${data2.path}`;
 
-    if (isLoading) return;
-    console.log('asifjoweijowiefo');
-    const res = await postImage({ image_url, title, content, categories });
-    if (error) {
+    if (isPending) return;
+
+    const res = await mutate({ image_url, title, content, categories });
+
+    if (isError) {
       alert('게시에 실패했습니다.');
-      console.error(error);
-    } else {
-      refetch();
+      return;
     }
+
     console.log(res);
     router.push('/');
   };
