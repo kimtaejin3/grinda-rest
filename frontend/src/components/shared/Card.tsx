@@ -33,13 +33,12 @@ export default function Card({
     >
       <div className="h-full relative">
         <Image
-          layout="responsive"
-          width={100}
-          height={100}
-          objectFit="cover"
-          className="w-full h-full object-cover"
+          width={1}
+          height={1}
+          className="w-full h-auto object-cover"
           src={cover}
           alt=""
+          sizes="100vw"
         />
       </div>
       {isHover && (
