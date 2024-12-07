@@ -19,9 +19,9 @@ export default function CardsLoading({
         return (
           <div
             key={index}
-            className={`bg-gray-300 ${randomHeightClass} rounded-lg shadow animate-pulse duration-700`}
+            className={`bg-gray-200 ${randomHeightClass} rounded-lg shadow animate-pulse duration-700`}
           >
-            <span className="text-gray-300">this is for skeleton ui</span>
+            <span className="text-gray-200">this is for skeleton ui</span>
           </div>
         );
       })}
