@@ -26,7 +26,7 @@ export default function Card({
     <div
       className={$(
         className,
-        'rounded-lg overflow-hidden cursor-pointer relative hover:scale-105 transition-all duration-300'
+        'rounded-lg overflow-hidden cursor-pointer relative hover:scale-105 transition-all duration-300 bg-gray-200'
       )}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
