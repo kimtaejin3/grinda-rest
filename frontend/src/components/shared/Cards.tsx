@@ -43,7 +43,7 @@ export default function Cards({
               type="number"
               value={page}
             />{' '}
-            &nbsp; / &nbsp; {Math.floor(data?.total / 17) + 1}
+            &nbsp; / &nbsp; {Math.ceil(data?.total / 17)}
           </div>
           <Link href={`?page=${parseInt(page) + 1}`}>{'>'}</Link>
         </div>
