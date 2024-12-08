@@ -42,6 +42,10 @@ grinda-rest/
 - 🔍 이미지 검색
 - 💕 좋아요 및 저장 기능
 
+## Next.js 14 Streaming SSR 적용
+
+Server Side Rendering시 페이지를 컴포넌트 단위로 점진적으로 로딩하여 초기 렌더링 속도를 높이고, 불필요한 자바스크립트 번들을 최소화했습니다.
+
 ## 🚀 시작하기
 
 ### prerequisites
