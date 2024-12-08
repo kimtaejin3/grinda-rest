@@ -3,6 +3,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { getAllImages } from '@/apis/image';
@@ -21,6 +22,10 @@ export default function Cards({
     queryFn: () => getAllImages(page),
   });
 
+  const router = useRouter();
+  const _page = parseInt(page);
+  const totalPage = Math.ceil(data?.total / 17);
+
   return (
     <>
       <div className={`columns-2 md:columns-4 space-y-5 gap-4  ${className}`}>
@@ -31,21 +36,35 @@ export default function Cards({
       <div className="mt-10 relative">
         <Link
           className="absolute left-[50%] translate-x-[-50%] border-[0.1em] border-black rounded-full py-2 px-4"
-          href={`?page=${parseInt(page) + 1}`}
+          href={`?page=${_page + 1}`}
         >
           다음 페이지
         </Link>
         <div className="flex items-center gap-6 absolute right-0">
-          <Link href={`?page=${parseInt(page) - 1}`}>{'<'}</Link>
+          <Link
+            onClick={(e) => {
+              e.preventDefault();
+              if (_page === 1) return;
+              router.push(`?page=${_page - 1}`);
+            }}
+            href="#"
+          >
+            {'<'}
+          </Link>
           <div>
-            <input
-              className="border-[1px] border-black rounded-md w-10 p-2 inline-flex items-center justify-center text-center"
-              type="number"
-              value={page}
-            />{' '}
-            &nbsp; / &nbsp; {Math.ceil(data?.total / 17)}
+            <span>{page}</span>
+            &nbsp; / &nbsp; {totalPage}
           </div>
-          <Link href={`?page=${parseInt(page) + 1}`}>{'>'}</Link>
+          <Link
+            onClick={(e) => {
+              e.preventDefault();
+              if (_page === totalPage) return;
+              router.push(`?page=${_page + 1}`);
+            }}
+            href="#"
+          >
+            {'>'}
+          </Link>
         </div>
       </div>
     </>
