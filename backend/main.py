@@ -128,10 +128,26 @@ async def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 # 이미지 목록 읽기
+# @app.get("/images/")
+# async def read_images(page: int = 0, limit: int = 17, db: Session = Depends(get_db)):
+#     images = db.query(Images).offset(page * 17).limit(limit).all()
+#     return images
+
 @app.get("/images/")
-async def read_images(skip: int = 0, limit: int = 17, db: Session = Depends(get_db)):
-    images = db.query(Images).offset(skip).limit(limit).all()
-    return images
+async def read_images(page: int = 0, limit: int = 17, db: Session = Depends(get_db)):
+    # 전체 이미지 수 계산
+    total_images = db.query(Images).count()
+
+    # 현재 페이지의 이미지 가져오기
+    images = db.query(Images).offset(page * limit).limit(limit).all()
+
+    # 결과 반환
+    return {
+        "total": total_images,
+        "page": page,
+        "limit": limit,
+        "images": images
+    }
 
 # 내가 좋아요한 이미지 목록 읽기
 @app.get("/images/liked/")
