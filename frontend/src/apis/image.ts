@@ -1,7 +1,7 @@
 import api from '.';
 
-const getAllImages = async () => {
-  const response = await api.get('/images');
+const getAllImages = async (page: string) => {
+  const response = await api.get(`/images?page=${parseInt(page) - 1}&limit=17`);
   return response.data;
 };
 
