@@ -36,7 +36,12 @@ export default function Cards({
       <div className="mt-10 relative">
         <Link
           className="absolute left-[50%] translate-x-[-50%] border-[0.1em] border-black rounded-full py-2 px-4"
-          href={`?page=${_page + 1}`}
+          onClick={(e) => {
+            e.preventDefault();
+            if (_page === totalPage) return;
+            router.push(`?page=${_page + 1}`);
+          }}
+          href="#"
         >
           다음 페이지
         </Link>
