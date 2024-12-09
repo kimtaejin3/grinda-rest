@@ -8,6 +8,8 @@ import React from 'react';
 
 import { getAllImages } from '@/apis/image';
 
+import LeftArrow from '../icon/LeftArrow';
+import RightArrow from '../icon/RightArrow';
 import Card from './Card';
 
 export default function Cards({
@@ -52,9 +54,10 @@ export default function Cards({
               if (_page === 1) return;
               router.push(`?page=${_page - 1}`);
             }}
+            className="w-10 h-10 hover:bg-slate-100 rounded-full flex items-center justify-center"
             href="#"
           >
-            {'<'}
+            <LeftArrow />
           </Link>
           <div>
             <span>{page}</span>
@@ -66,9 +69,10 @@ export default function Cards({
               if (_page === totalPage) return;
               router.push(`?page=${_page + 1}`);
             }}
+            className="w-10 h-10 hover:bg-slate-100 rounded-full flex items-center justify-center"
             href="#"
           >
-            {'>'}
+            <RightArrow />
           </Link>
         </div>
       </div>
