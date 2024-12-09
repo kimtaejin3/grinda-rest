@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { $ } from '@/lib/core';
 
@@ -21,6 +21,26 @@ export default function Card({
   categories: string[];
 }) {
   const [isHover, setIsHover] = useState(false);
+
+  const onClickImgLink = useCallback((srcUrl: string, name: string) => {
+    fetch(srcUrl, { method: 'GET' })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout((_) => {
+          window.URL.revokeObjectURL(url);
+        }, 1000);
+        a.remove();
+      })
+      .catch((err) => {
+        console.error('err', err);
+      });
+  }, []);
 
   return (
     <div
@@ -51,6 +71,13 @@ export default function Card({
             </div>
           </div>
           <p className="text-sm">{content}</p>
+          {cover && (
+            <button
+              onClick={() => onClickImgLink(cover, `fromGindaRest ${title}`)}
+            >
+              이미지 다운로드
+            </button>
+          )}
         </div>
       )}
     </div>
