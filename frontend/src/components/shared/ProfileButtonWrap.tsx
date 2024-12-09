@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
+import { getUser } from '@/apis/user';
 import useHandleOutsideClick from '@/hooks/useHandleOutsideClick';
 
 import Profile from '../icon/Profile';
@@ -12,16 +13,27 @@ import Popover from './Popover';
 export default function ProfileButtonWrap() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState<{ username: string; id: number }>();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
 
   useHandleOutsideClick(wrapperRef, () => setIsOpen(false));
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
       setIsLogin(true);
     }
+  }, []);
+
+  useEffect(() => {
+    async function loadUser() {
+      const user = await getUser();
+      setUser(user);
+    }
+
+    loadUser();
   }, []);
 
   return (
@@ -37,7 +49,7 @@ export default function ProfileButtonWrap() {
           <div className="">
             <div className="py-2 justify-center flex gap-2 items-center">
               <Profile />
-              <span>홍길동</span>
+              <span>{user?.username}</span>
             </div>
             <button
               onClick={() => {
@@ -51,6 +63,7 @@ export default function ProfileButtonWrap() {
             <button
               onClick={() => {
                 setIsOpen(false);
+                setIsLogin(false);
                 localStorage.removeItem('accessToken');
                 router.push('/');
               }}
