@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 
 import { $ } from '@/lib/core';
 
+import Download from '../icon/Download';
 import Like from '../icon/Like';
 
 export default function Card({
@@ -12,13 +13,11 @@ export default function Card({
   cover,
   title,
   content,
-  categories,
 }: {
   className?: string;
   cover: string;
   title: string;
   content: string;
-  categories: string[];
 }) {
   const [isHover, setIsHover] = useState(false);
 
@@ -32,7 +31,7 @@ export default function Card({
         a.download = name;
         document.body.appendChild(a);
         a.click();
-        setTimeout((_) => {
+        setTimeout(() => {
           window.URL.revokeObjectURL(url);
         }, 1000);
         a.remove();
@@ -62,20 +61,23 @@ export default function Card({
         />
       </div>
       {isHover && (
-        <div className="absolute z-10 inset-0 bg-black text-white opacity-60  py-2 px-4 flex flex-col gap-6">
-          <div className="flex items-start justify-between ">
-            <p className="text-sm">{title}</p>
-            <div className="flex items-center gap-1">
-              <Like />
-              <p className="text-sm">12</p>
+        <div className="absolute z-10 inset-0 bg-black text-white opacity-90  py-2 px-4 flex flex-col justify-between">
+          <div>
+            <div className="flex items-start justify-between ">
+              <p className="text-sm">{title}</p>
+              <div className="flex items-center gap-1">
+                <Like />
+                <p className="text-sm">12</p>
+              </div>
             </div>
+            <p className="text-smmt mt-5">{content}</p>
           </div>
-          <p className="text-sm">{content}</p>
           {cover && (
             <button
-              onClick={() => onClickImgLink(cover, `fromGindaRest ${title}`)}
+              className="mb-3 flex justify-end"
+              onClick={() => onClickImgLink(cover, `fromGindaRest-${title}`)}
             >
-              이미지 다운로드
+              <Download />
             </button>
           )}
         </div>
