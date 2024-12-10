@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated, List
 
 import jwt
-from fastapi import FastAPI, Depends, HTTPException, status, Request, Response
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Response, Query
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from backend.database import SessionLocal, User, Images, Likes
@@ -133,13 +133,33 @@ async def login_for_access_token(
 #     images = db.query(Images).offset(page * 17).limit(limit).all()
 #     return images
 
-@app.get("/images/")
-async def read_images(page: int = 0, limit: int = 17, db: Session = Depends(get_db)):
-    # 전체 이미지 수 계산
-    total_images = db.query(Images).count()
+# @app.get("/images/")
+# async def read_images(page: int = 0, limit: int = 17, db: Session = Depends(get_db)):
+#     # 전체 이미지 수 계산
+#     total_images = db.query(Images).count()
 
-    # 현재 페이지의 이미지 가져오기
-    images = db.query(Images).offset(page * limit).limit(limit).all()
+#     # 현재 페이지의 이미지 가져오기
+#     images = db.query(Images).offset(page * limit).limit(limit).all()
+
+#     # 결과 반환
+#     return {
+#         "total": total_images,
+#         "page": page,
+#         "limit": limit,
+#         "images": images
+#     }
+
+@app.get("/images/")
+async def read_images(page: int = 0, limit: int = 17, search: str = Query(None), db: Session = Depends(get_db)):
+    
+    query = db.query(Images)
+
+    if search:
+        query = query.filter(Images.categories.any(search))
+
+    total_images = query.count()
+
+    images = query.offset(page * limit).limit(limit).all()
 
     # 결과 반환
     return {

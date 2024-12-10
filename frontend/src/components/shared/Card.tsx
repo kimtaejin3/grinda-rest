@@ -61,7 +61,7 @@ export default function Card({
         />
       </div>
       {isHover && (
-        <div className="absolute z-10 inset-0 bg-black text-white opacity-90  py-2 px-4 flex flex-col justify-between">
+        <div className="absolute z-10 inset-0 bg-black text-white opacity-60  py-2 px-4 flex flex-col justify-between">
           <div>
             <div className="flex items-start justify-between ">
               <p className="text-sm">{title}</p>
