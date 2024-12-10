@@ -4,9 +4,12 @@ from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import ARRAY
 
-DATABASE_URL = "postgresql://postgres.gmpgjtjmalohyjsespkr:qPxNCeULULXtdEzN@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
+DATABASE_URL = "postgresql://postgres.gmpgjtjmalohyjsespkr:sLEQDIgpabTTlLEy@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL, 
+    connect_args={"options": "-c client_encoding=utf8"}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
