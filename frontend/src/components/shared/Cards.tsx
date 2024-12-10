@@ -15,13 +15,15 @@ import Card from './Card';
 export default function Cards({
   className,
   page,
+  search
 }: {
   className?: string;
   page: string;
+  search: string | undefined
 }) {
   const { data } = useQuery({
-    queryKey: ['images', page],
-    queryFn: () => getAllImages(page),
+    queryKey: ['images', page, search],
+    queryFn: () => getAllImages(page, search),
   });
 
   const router = useRouter();
