@@ -5,8 +5,8 @@ import jwt
 from fastapi import FastAPI, Depends, HTTPException, status, Request, Response, Query
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from backend.database import SessionLocal, User, Images, Likes
-from backend.model import ToDoCreate, UserCreate, ImageCreate
+from .database import SessionLocal, User, Images, Likes
+from .model import ToDoCreate, UserCreate, ImageCreate
 from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from pydantic import BaseModel
