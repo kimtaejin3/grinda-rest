@@ -2,6 +2,9 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import bundleCss from '!raw-loader!../styles/tailwindSSR.css';
 import ClientProvider from '@/components/ClientProvider';
 
 export const metadata: Metadata = {
@@ -16,6 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       <head>
+        <style
+          key="custom-tailwind"
+          dangerouslySetInnerHTML={{ __html: bundleCss }}
+        />
+      </head>
       <body>
         <ClientProvider>
           <div className="max-w-[1100px] mx-auto px-4">{children}</div>
