@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "NODE_ENV=production next build",
+    "start": "NODE_ENV=production next start",
+    "lint": "next lint",
+    "prebuild": "NODE_ENV=production npx tailwindcss -i ./src/app/globals.css -o ./src/styles/tailwindSSR.css --minify"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
@@ -27,12 +28,15 @@
     "@types/react-dom": "^18",
     "clsx": "^2.1.1",
     "critters": "^0.0.25",
+    "cssnano": "^7.0.6",
     "eslint": "^8",
     "eslint-config-next": "14.2.18",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "postcss": "^8",
+    "raw-loader": "^4.0.2",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.1",
+    "tailwindcss-cli": "^0.1.2",
     "typescript": "^5"
   }
 }
