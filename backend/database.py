@@ -1,10 +1,16 @@
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import ARRAY
 
-DATABASE_URL = "postgresql://postgres.gmpgjtjmalohyjsespkr:sLEQDIgpabTTlLEy@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
+load_dotenv()
+
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+
+DATABASE_URL = f"postgresql://postgres.gmpgjtjmalohyjsespkr:{DB_PASSWORD}@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres"
 
 engine = create_engine(
     DATABASE_URL, 
