@@ -27,12 +27,11 @@ jobs:
             app: dockerfile
             options:
               ports: "8000"
-              dockerfile: backend/Dockerfile  # Path to Dockerfile inside the 'backend' folder
+              dockerfile: Dockerfile  # Path to Dockerfile inside the 'backend' folder
               env: []
               args: []
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
-                path: backend  # Make sure to deploy from the 'backend' subdirectory
               preset: dockerfile
