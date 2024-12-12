@@ -47,6 +47,5 @@ class Likes(Base):
     image = relationship("Images", back_populates="likes")
     user = relationship("User", back_populates="likes")
 
-# 데이터베이스 초기화
 Base.metadata.create_all(bind=engine)
 
