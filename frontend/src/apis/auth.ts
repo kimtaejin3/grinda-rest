@@ -1,7 +1,7 @@
 import api from ".";
 
 const signUp = async (username: string, password: string) => {
-    const response = await api.post('/users', { username, password });
+    const response = await api.post('/users/', { username, password });
     return response.data;
 };
 
