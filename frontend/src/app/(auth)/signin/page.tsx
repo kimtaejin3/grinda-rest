@@ -17,8 +17,15 @@ export default function Page() {
   });
 
   // const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
-  const { mutate: signInMutation, isError,isSuccess, error, data } = useMutation({
+  const { mutate: signInMutation, isError, error, data } = useMutation({
     mutationFn: ({username, password}: {username: string, password: string}) => signIn(username, password),
+    onSuccess: () => {
+      alert('로그인에 성공했습니다.');
+      console.log('data:', data);
+
+      localStorage.setItem('accessToken', data.access_token);
+      router.push('/');
+    }
   });
 
   const router = useRouter();
@@ -38,14 +45,6 @@ export default function Page() {
       console.log(error);
       return;
     } 
-
-    if(isSuccess){
-      alert('로그인에 성공했습니다.');
-      console.log('data:', data);
-
-      localStorage.setItem('accessToken', data.access_token);
-      router.push('/');
-    }
   }
 
   return (
