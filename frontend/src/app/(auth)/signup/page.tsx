@@ -18,7 +18,7 @@ const INITIAL_FORM = {
 export default function Page() {
   const [form, setForm] = useState(INITIAL_FORM);
 
-  const { mutate: signUpMutation, isError, isSuccess, error } = useMutation({
+  const { mutate: signUpMutation, isError, error } = useMutation({
     mutationFn: ({username, password}: {username: string, password: string}) => signUp(username, password),
   });
 
@@ -41,10 +41,11 @@ export default function Page() {
     if (isError) {
       alert('회원가입에 실패했습니다.');
       console.log('error',error);
-    } else if (isSuccess) {
-      alert('회원가입에 성공했습니다.');
-      router.push('/signin');
-    }
+      return;
+    } 
+
+    alert('회원가입에 성공했습니다.');
+    router.push('/signin');
   };
 
   return (
