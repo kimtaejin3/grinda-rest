@@ -34,5 +34,6 @@ jobs:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
+                path: backen
               preset: dockerfile
               
