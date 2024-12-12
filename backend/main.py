@@ -185,27 +185,3 @@ async def delete_like(image_id: int, current_user: Annotated[User, Depends(get_c
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Like not found"
         )
-
-# class TokenValidationMiddleware(BaseHTTPMiddleware):
-#     async def dispatch(self, request: Request, call_next):
-#         try:
-#             # 토큰 검증 로직
-#             auth_header = request.headers.get("Authorization")
-#             if auth_header is None:
-#                 return Response(status_code=401, content="Authorization header missing.")
-            
-#             token = auth_header.split(" ")[1]
-#             payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-#             # 토큰이 유효한 경우 다음 미들웨어 또는 엔드포인트로 요청 전달
-#             response = await call_next(request)
-#             return response
-#         except ExpiredSignatureError:
-#             # 토큰이 만료된 경우 401 대신 다른 상태 코드 반환
-#             return Response(status_code=403, content="Token expired, please refresh.")
-#         except InvalidTokenError:
-#             # 다른 토큰 오류 처리
-#             print("Invalid token.")
-#             return Response(status_code=401, content="Invalid token.")
-
-# # 미들웨어 추가
-# app.add_middleware(TokenValidationMiddleware)
