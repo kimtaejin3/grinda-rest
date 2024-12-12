@@ -17,7 +17,7 @@ export default function Page() {
   });
 
   // const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
-  const { mutate: signInMutation, isError, error, data } = useMutation({
+  const { mutate: signInMutation, isError,isSuccess, error, data } = useMutation({
     mutationFn: ({username, password}: {username: string, password: string}) => signIn(username, password),
   });
 
@@ -39,7 +39,7 @@ export default function Page() {
       return;
     } 
 
-    if(data){
+    if(isSuccess){
       alert('로그인에 성공했습니다.');
       console.log('data:', data);
 
