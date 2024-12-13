@@ -14,7 +14,10 @@ DATABASE_URL = f"postgresql://postgres.gmpgjtjmalohyjsespkr:{DB_PASSWORD}@aws-0-
 
 engine = create_engine(
     DATABASE_URL, 
-    connect_args={"options": "-c client_encoding=utf8"}
+    connect_args={
+        "sslmode": "disable",
+        "connect_timeout": 30
+    }
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
