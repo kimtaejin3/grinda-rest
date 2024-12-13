@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  baseURL: "https://port-0-grinda-rest-m4jhu7695910b72b.sel4.cloudtype.app",
   timeout: 1000,
 });
 
