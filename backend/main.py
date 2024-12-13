@@ -12,6 +12,7 @@ from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
@@ -19,11 +20,21 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
 
+# 신뢰할 수 있는 호스트 설정
+app.add_middleware(
+    TrustedHostMiddleware, 
+    allowed_hosts=["port-0-grinda-rest-m4jhu7695910b72b.sel4.cloudtype.app"]
+)
+
+# CORS 미들웨어 설정에 HTTPS 스키마 명시
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
-    allow_methods=["*"],  
-    allow_headers=["*"],  
+    allow_origins=[
+        "https://grinda-rest.vercel.app",
+        "https://port-0-grinda-rest-m4jhu7695910b72b.sel4.cloudtype.app"
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
