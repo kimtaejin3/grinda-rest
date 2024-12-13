@@ -13,7 +13,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="max-w-[1100px] mx-auto px-4">
+    <div className="max-w-[1100px] mx-auto">
       <Header />
       {children}
     </div>
