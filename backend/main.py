@@ -133,7 +133,7 @@ async def read_images(
     total_images = query.count()
     offset = max(0, page * limit)
     
-    images = query.offset(offset).limit(limit).all()
+    images = query.offset(offset).limit(limit).all().sort(key=lambda x: x.created_at, reverse=True)
     
     return {
         "total": total_images,
