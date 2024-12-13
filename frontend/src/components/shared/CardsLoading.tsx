@@ -9,7 +9,7 @@ export default function CardsLoading({
 }) {
   // Define the possible height classes
   const heightClasses = ['h-[180px]', 'h-[300px]', 'h-[250px]', 'h-[200px]'];
-
+  
   return (
     <div className={$(`columns-2 md:columns-4 space-y-5 gap-5`, className)}>
       {Array.from({ length: count }).map((_, index) => {
