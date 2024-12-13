@@ -32,8 +32,11 @@ export default function ProfileButtonWrap() {
       const user = await getUser();
       setUser(user);
     }
-
-    loadUser();
+    try {
+      loadUser();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   return (

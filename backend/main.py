@@ -117,18 +117,22 @@ async def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/images/")
-async def read_images(page: int = 0, limit: int = 17, search: str = Query(None), db: Session = Depends(get_db)):
-    
+async def read_images(
+    page: int = Query(ge=0, default=0),
+    limit: int = Query(ge=1, le=100, default=17),
+    search: str = Query(None),
+    db: Session = Depends(get_db)
+):
     query = db.query(Images)
-
+    
     if search:
         query = query.filter(Images.categories.any(search))
-
+    
     total_images = query.count()
-
-    images = query.offset(page * limit).limit(limit).all()
-
-    # 결과 반환
+    offset = max(0, page * limit)
+    
+    images = query.offset(offset).limit(limit).all()
+    
     return {
         "total": total_images,
         "page": page,
