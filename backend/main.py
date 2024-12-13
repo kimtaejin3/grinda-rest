@@ -20,7 +20,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
 
-# CORS 미들웨어 설정에 HTTPS 스키마 명시
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
