@@ -27,7 +27,7 @@ jobs:
             app: dockerfile
             options:
               ports: "8000"
-              dockerfile: Dockerfile  # Path to Dockerfile inside the 'backend' folder
+              dockerfile: backend/Dockerfile
               env: []
               args: []
             context:
