@@ -23,11 +23,7 @@ app = FastAPI()
 # CORS 미들웨어 설정에 HTTPS 스키마 명시
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://grinda-rest.vercel.app",
-        "https://port-0-grinda-rest-m4jhu7695910b72b.sel4.cloudtype.app",
-        "http://localhost:3000"
-    ],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
