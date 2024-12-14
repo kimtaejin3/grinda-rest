@@ -4,6 +4,7 @@ from typing import Annotated, List
 import jwt
 from fastapi import FastAPI, Depends, HTTPException, status, Request, Response, Query
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from sqlalchemy import desc
 from sqlalchemy.orm import Session
 from .database import SessionLocal, User, Images, Likes
 from .model import ToDoCreate, UserCreate, ImageCreate
@@ -129,7 +130,7 @@ async def read_images(
     if search:
         query = query.filter(Images.categories.any(search))
     
-    query = query.order_by(Images.created_at.desc())
+    query = query.order_by(desc(Images.created_at))
     
     total_images = query.count()
     offset = max(0, page * limit)
