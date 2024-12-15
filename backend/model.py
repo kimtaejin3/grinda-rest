@@ -15,4 +15,3 @@ class ImageCreate(BaseModel):
     title: str
     content: str
     categories: List[str]
-    likes: int = 0

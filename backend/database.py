@@ -37,6 +37,7 @@ class Images(Base):
     title = Column(String, nullable=False)
     content = Column(String, nullable=False)
     categories = Column(ARRAY(String), nullable=False)
+    like_count = Column(Integer, default=0)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     user = relationship("User", back_populates="images")
     likes = relationship("Likes", back_populates="image")
