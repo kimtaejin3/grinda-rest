@@ -144,19 +144,16 @@ async def read_images(
         "images": images
     }
 
-# 내가 좋아요한 이미지 목록 읽기
 @app.get("/images/liked/")
 async def read_liked_images(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     liked_images = db.query(Images).join(Likes).filter(Likes.user_id == current_user.id).all()
     return liked_images
 
-# 내가 업로드한 이미지 목록 읽기
 @app.get("/images/my/")
 async def read_my_images(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     my_images = db.query(Images).filter(Images.user_id == current_user.id).all()
     return my_images
 
-# 이미지 업로드
 @app.post("/image/")
 async def create_image(image: ImageCreate, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     new_image = Images(image_url=image.image_url, title=image.title, content=image.content, categories=image.categories, user_id=current_user.id)
@@ -171,7 +168,6 @@ async def delete_image(image_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Image deleted"}
 
-# 좋아요 추가
 @app.post("/like/{image_id}")
 async def create_like(image_id: int, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     new_like = Likes(image_id=image_id, user_id=current_user.id)
@@ -180,7 +176,6 @@ async def create_like(image_id: int, current_user: Annotated[User, Depends(get_c
     db.refresh(new_like)
     return new_like
 
-# 좋아요 삭제
 @app.delete("/like/{image_id}")
 async def delete_like(image_id: int, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     like = db.query(Likes).filter(Likes.image_id == image_id, Likes.user_id == current_user.id).first()
