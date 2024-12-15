@@ -170,6 +170,18 @@ async def delete_image(image_id: int, db: Session = Depends(get_db)):
 
 @app.post("/like/{image_id}")
 async def create_like(image_id: int, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    # 이미 좋아요를 눌렀는지 확인
+    existing_like = db.query(Likes).filter(
+        Likes.image_id == image_id,
+        Likes.user_id == current_user.id
+    ).first()
+    
+    if existing_like:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="이미 좋아요를 누른 이미지입니다"
+        )
+
     new_like = Likes(image_id=image_id, user_id=current_user.id)
     db.add(new_like)
     db.commit()
