@@ -13,7 +13,7 @@ const postImage = async (
   categories: string[]
 ) => {
   const response = await api.post(
-    '/image',
+    '/image/',
     {
       image_url,
       title,
