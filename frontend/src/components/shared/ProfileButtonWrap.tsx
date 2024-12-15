@@ -57,15 +57,6 @@ export default function ProfileButtonWrap() {
             <button
               onClick={() => {
                 setIsOpen(false);
-                router.push('/profile');
-              }}
-              className="text-center py-2 block w-full hover:bg-gray-100"
-            >
-              프로필
-            </button>
-            <button
-              onClick={() => {
-                setIsOpen(false);
                 setIsLogin(false);
                 localStorage.removeItem('accessToken');
                 router.push('/');
