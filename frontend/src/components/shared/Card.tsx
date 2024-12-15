@@ -33,7 +33,8 @@ export default function Card({
 
   const { mutate: likeImageMutation } = useMutation({
     mutationFn: (image_id: number) => likeImage(image_id),
-    onMutate: () => {
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['images'] });
       const previousLikeCount = localLikeCount;
       setLocalLikeCount(previousLikeCount + 1);
       return { previousLikeCount };
