@@ -37,9 +37,9 @@ export default function Cards({
           <Card key={index} cover={elem.image_url} {...elem} />
         ))}
       </div>
-      <div className="mt-10 relative">
+      <div className="mt-10 relative flex flex-col items-center gap-5">
         <Link
-          className="absolute left-[50%] translate-x-[-50%] border-[0.1em] border-black rounded-full py-2 px-4"
+          className="mt-5 mb-6 border-[0.1em] border-black rounded-full py-2 px-4"
           onClick={(e) => {
             e.preventDefault();
             if (_page === totalPage) return;
@@ -49,7 +49,7 @@ export default function Cards({
         >
           다음 페이지
         </Link>
-        <div className="flex items-center gap-6 absolute right-0">
+        <div className="flex items-center gap-6 right-0">
           <Link
             // onClick={(e) => {
             //   e.preventDefault();
