@@ -67,7 +67,7 @@ export default function Card({
               <p className="text-sm">{title}</p>
               <div className="flex items-center gap-1">
                 <Like />
-                <p className="text-sm">12</p>
+                <p className="text-sm">{}</p>
               </div>
             </div>
             <p className="text-smmt mt-5">{content}</p>
