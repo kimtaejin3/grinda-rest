@@ -3,6 +3,8 @@ import React from 'react';
 interface LikeProps {
   className?: string;
   props?: React.ComponentProps<'svg'>;
+  fill?: string;
+  stroke?: string;
 }
 
 export default function Like({ className, ...props }: LikeProps) {

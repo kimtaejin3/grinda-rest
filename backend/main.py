@@ -173,7 +173,10 @@ async def create_like(image_id: int, current_user: Annotated[User, Depends(get_c
     new_like = Likes(image_id=image_id, user_id=current_user.id)
     db.add(new_like)
     db.commit()
-    db.refresh(new_like)
+
+    db.query(Images).filter(Images.id == image_id).update({"like_count": Images.like_count + 1})
+    db.commit()
+
     return new_like
 
 @app.delete("/like/{image_id}")

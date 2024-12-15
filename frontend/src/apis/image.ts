@@ -30,4 +30,22 @@ const postImage = async (
   return response.data;
 };
 
-export { getAllImages, postImage };
+const likeImage = async (image_id: number) => {
+  const response = await api.post(`/like/${image_id}`, {}, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  return response.data;
+};
+
+const deleteLike = async (image_id: number) => {
+  const response = await api.delete(`/like/${image_id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  return response.data;
+};
+
+export { deleteLike,getAllImages, likeImage, postImage };
