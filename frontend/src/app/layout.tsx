@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import bundleCss from '!raw-loader!../styles/tailwindSSR.css';
-import ClientProvider from '@/components/ClientProvider';
+import ClientProvider from '@/components/shared/ClientProvider';
 import ToastContainerWrapper from '@/components/shared/ToastContainerWrapper';
 
 export const metadata: Metadata = {

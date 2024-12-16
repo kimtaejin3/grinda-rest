@@ -101,14 +101,6 @@ export default function Page() {
           로그인
         </Link>
       </div>
-      <div
-        onClick={() => {
-          console.log('click');
-          toast.success('회원가입에 성공했습니다.');
-        }}
-      >
-        토스트
-      </div>
     </form>
   );
 }

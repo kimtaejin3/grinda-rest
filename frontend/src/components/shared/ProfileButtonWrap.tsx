@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { getUser } from '@/apis/user';
 import useHandleOutsideClick from '@/hooks/useHandleOutsideClick';
@@ -56,6 +57,7 @@ export default function ProfileButtonWrap() {
             </div>
             <button
               onClick={() => {
+                toast.success('로그아웃 되었습니다.');
                 setIsOpen(false);
                 setIsLogin(false);
                 localStorage.removeItem('accessToken');

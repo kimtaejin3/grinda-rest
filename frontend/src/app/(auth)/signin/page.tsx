@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { signIn } from '@/apis/auth';
 
 // import { useSignInMutation } from '@/store/auth';
-
 
 export default function Page() {
   const [form, setForm] = useState({
@@ -16,16 +16,14 @@ export default function Page() {
     password: '',
   });
 
-  // const [signIn, {isError, isSuccess, error, data}] = useSignInMutation();
-  const { mutate: signInMutation, isError, error } = useMutation({
-    mutationFn: ({username, password}: {username: string, password: string}) => signIn(username, password),
-    onSuccess: (data) => {
-      alert('로그인에 성공했습니다.');
-      console.log('data:', data);
-
-      localStorage.setItem('accessToken', data.access_token);
-      router.push('/');
-    }
+  const { mutate: signInMutation } = useMutation({
+    mutationFn: ({
+      username,
+      password,
+    }: {
+      username: string;
+      password: string;
+    }) => signIn(username, password),
   });
 
   const router = useRouter();
@@ -38,14 +36,26 @@ export default function Page() {
       alert('닉네임과 비밀번호를 모두 입력해주세요.');
       return;
     }
-    signInMutation({ username, password });
 
-    if (isError) {
-      alert('로그인에 실패했습니다.');
-      console.log(error);
-      return;
-    } 
-  }
+    const toastId = toast.loading('로그인 중...');
+
+    signInMutation(
+      { username, password },
+      {
+        onSuccess: (data) => {
+          toast.dismiss(toastId);
+          toast.success('로그인에 성공했습니다.');
+          localStorage.setItem('accessToken', data.access_token);
+          router.push('/');
+        },
+        onError: () => {
+          toast.dismiss(toastId);
+          toast.error('로그인에 실패했습니다.');
+          router.push('/');
+        },
+      }
+    );
+  };
 
   return (
     <form onSubmit={handleSubmit}>
