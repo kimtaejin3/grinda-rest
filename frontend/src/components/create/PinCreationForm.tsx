@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { postImage } from '@/apis/image';
 import { $ } from '@/lib/core';
@@ -33,7 +34,7 @@ export default function PinCreationForm({ className }: { className?: string }) {
   const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState(initialForm);
 
-  const { mutate, isError, isPending } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({
       image_url,
       title,
@@ -45,9 +46,6 @@ export default function PinCreationForm({ className }: { className?: string }) {
       content: string;
       categories: string[];
     }) => postImage(image_url, title, content, categories),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['images'] });
-    },
   });
 
   const image_preview = useMemo(() => {
@@ -110,6 +108,8 @@ export default function PinCreationForm({ className }: { className?: string }) {
       return;
     }
 
+    const toastId = toast.loading('핀 생성 중...');
+
     const data2 = await insertImage(files[0]);
     const { title, content, categories } = form;
 
@@ -125,14 +125,21 @@ export default function PinCreationForm({ className }: { className?: string }) {
 
     if (isPending) return;
 
-    const res = await mutate({ image_url, title, content, categories });
+    await mutate(
+      { image_url, title, content, categories },
+      {
+        onSuccess: () => {
+          toast.dismiss(toastId);
+          queryClient.invalidateQueries({ queryKey: ['images'] });
+          toast.success('핀 생성에 성공했습니다.');
+        },
+        onError: () => {
+          toast.dismiss(toastId);
+          toast.error('핀 생성에 실패했습니다.');
+        },
+      }
+    );
 
-    if (isError) {
-      alert('게시에 실패했습니다.');
-      return;
-    }
-
-    console.log(res);
     router.push('/');
   };
 
