@@ -1,6 +1,7 @@
 // import './globals.css';
 
 import type { Metadata } from 'next';
+import { ToastContainer } from 'react-toastify';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-       <head>
+      <head>
         <style
           key="custom-tailwind"
           dangerouslySetInnerHTML={{ __html: bundleCss }}
@@ -30,6 +31,14 @@ export default function RootLayout({
         <ClientProvider>
           <div className="max-w-[1100px] mx-auto px-4">{children}</div>
         </ClientProvider>
+        <ToastContainer
+          position="top-center"
+          // autoClose={2000}
+          hideProgressBar={false}
+          theme="light"
+          closeButton={false}
+          rtl={false}
+        />
       </body>
     </html>
   );

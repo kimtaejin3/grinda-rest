@@ -1,13 +1,12 @@
-"use client"
+'use client';
 
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { signUp } from '@/apis/auth';
-
-// import { useSignUpMutation } from '@/store/auth';
 
 const INITIAL_FORM = {
   username: '',
@@ -18,12 +17,22 @@ const INITIAL_FORM = {
 export default function Page() {
   const [form, setForm] = useState(INITIAL_FORM);
 
-  const { mutate: signUpMutation, isError, error } = useMutation({
-    mutationFn: ({username, password}: {username: string, password: string}) => signUp(username, password),
+  const {
+    mutate: signUpMutation,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: ({
+      username,
+      password,
+    }: {
+      username: string;
+      password: string;
+    }) => signUp(username, password),
     onSuccess: () => {
-      alert('회원가입에 성공했습니다.');
+      toast.success('회원가입에 성공했습니다.');
       router.push('/signin');
-    }
+    },
   });
 
   const router = useRouter();
@@ -41,12 +50,14 @@ export default function Page() {
       return;
     }
 
+    toast.loading('회원가입 하는 중...');
+
     signUpMutation({ username, password });
     if (isError) {
-      alert('회원가입에 실패했습니다.');
-      console.log('error',error);
+      toast.error('회원가입에 실패했습니다.');
+      console.log('error', error);
       return;
-    } 
+    }
   };
 
   return (
