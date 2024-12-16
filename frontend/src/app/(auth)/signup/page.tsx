@@ -17,11 +17,7 @@ const INITIAL_FORM = {
 export default function Page() {
   const [form, setForm] = useState(INITIAL_FORM);
 
-  const {
-    mutate: signUpMutation,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate: signUpMutation } = useMutation({
     mutationFn: ({
       username,
       password,
@@ -29,10 +25,6 @@ export default function Page() {
       username: string;
       password: string;
     }) => signUp(username, password),
-    onSuccess: () => {
-      toast.success('회원가입에 성공했습니다.');
-      router.push('/signin');
-    },
   });
 
   const router = useRouter();
@@ -50,14 +42,22 @@ export default function Page() {
       return;
     }
 
-    toast.loading('회원가입 하는 중...');
+    const toastId = toast.loading('회원가입 하는 중...');
 
-    signUpMutation({ username, password });
-    if (isError) {
-      toast.error('회원가입에 실패했습니다.');
-      console.log('error', error);
-      return;
-    }
+    signUpMutation(
+      { username, password },
+      {
+        onSuccess: () => {
+          toast.dismiss(toastId);
+          toast.success('회원가입에 성공했습니다.');
+          router.push('/signin');
+        },
+        onError: () => {
+          toast.dismiss(toastId);
+          toast.error('회원가입에 실패했습니다.');
+        },
+      }
+    );
   };
 
   return (
@@ -100,6 +100,14 @@ export default function Page() {
         <Link className="mt-2 block text-center text-sm" href="/signin">
           로그인
         </Link>
+      </div>
+      <div
+        onClick={() => {
+          console.log('click');
+          toast.success('회원가입에 성공했습니다.');
+        }}
+      >
+        토스트
       </div>
     </form>
   );
