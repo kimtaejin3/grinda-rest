@@ -15,11 +15,11 @@ import Card from './Card';
 export default function Cards({
   className,
   page,
-  search
+  search,
 }: {
   className?: string;
   page: string;
-  search: string | undefined
+  search: string | undefined;
 }) {
   const { data } = useQuery({
     queryKey: ['images', page, search],
@@ -51,12 +51,11 @@ export default function Cards({
         </Link>
         <div className="flex items-center gap-6 right-0">
           <Link
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   if (_page === 1) return;
-            //   router.push(`?page=${_page - 1}`);
-            // }}
-            href={`?page=${_page - 1}`}
+            href={
+              search
+                ? `?search=${search}&page=${_page - 1}`
+                : `?page=${_page - 1}`
+            }
             prefetch
             className="w-10 h-10 hover:bg-slate-100 rounded-full flex items-center justify-center"
           >
@@ -67,12 +66,11 @@ export default function Cards({
             &nbsp; / &nbsp; {totalPage}
           </div>
           <Link
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   if (_page === totalPage) return;
-            //   router.push(`?page=${_page + 1}`);
-            // }}
-            href={`?page=${_page + 1}`}
+            href={
+              search
+                ? `?search=${search}&page=${_page + 1}`
+                : `?page=${_page + 1}`
+            }
             prefetch
             className="w-10 h-10 hover:bg-slate-100 rounded-full flex items-center justify-center"
           >
