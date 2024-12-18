@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { likeImage } from '@/apis/image';
 import { $ } from '@/lib/core';
@@ -31,6 +31,10 @@ export default function Card({
 
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    setLocalLikeCount(like_count);
+  }, [like_count]);
+
   const { mutate: likeImageMutation } = useMutation({
     mutationFn: (image_id: number) => likeImage(image_id),
     onMutate: async () => {
@@ -40,7 +44,7 @@ export default function Card({
       return { previousLikeCount };
     },
     onError: (error, image_id, context) => {
-      if (context){
+      if (context) {
         setLocalLikeCount(context?.previousLikeCount);
       }
     },
@@ -71,7 +75,7 @@ export default function Card({
 
   const handleLikeClick = useCallback((image_id: number) => {
     likeImageMutation(image_id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -105,7 +109,7 @@ export default function Card({
                   onMouseLeave={() => setIsLikedButtonHover(false)}
                 >
                   {isLikedButtonHover ? (
-                    <Like fill="red" stroke="red"/>
+                    <Like fill="red" stroke="red" />
                   ) : (
                     <Like />
                   )}
