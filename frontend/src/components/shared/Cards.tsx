@@ -53,8 +53,8 @@ export default function Cards({
           <Link
             href={
               search
-                ? `?search=${search}&page=${_page - 1}`
-                : `?page=${_page - 1}`
+                ? `?search=${search}&page=${Math.max(_page - 1, 1)}`
+                : `?page=${Math.max(_page - 1, 1)}`
             }
             prefetch
             className="w-10 h-10 hover:bg-slate-100 rounded-full flex items-center justify-center"
@@ -68,8 +68,8 @@ export default function Cards({
           <Link
             href={
               search
-                ? `?search=${search}&page=${_page + 1}`
-                : `?page=${_page + 1}`
+                ? `?search=${search}&page=${Math.min(_page + 1, totalPage)}`
+                : `?page=${Math.min(_page + 1, totalPage)}`
             }
             prefetch
             className="w-10 h-10 hover:bg-slate-100 rounded-full flex items-center justify-center"
