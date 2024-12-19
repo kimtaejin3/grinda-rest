@@ -2,11 +2,12 @@
 'use client';
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { getAllImages } from '@/apis/image';
 
 import Card from './Card';
+import CardsLoading from './CardsLoading';
 import Pagination from './Pagination';
 
 export default function Cards({
@@ -18,6 +19,8 @@ export default function Cards({
   page: string;
   search: string | undefined;
 }) {
+  const [isLoading, setIsLoading] = useState(true);
+
   const { data } = useQuery({
     queryKey: ['images', page, search],
     queryFn: () => getAllImages(page, search),
@@ -27,6 +30,18 @@ export default function Cards({
   });
 
   const totalPage = Math.ceil(data?.total / 17);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [page]);
+
+  if (isLoading) {
+    return <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />;
+  }
 
   return (
     <>
