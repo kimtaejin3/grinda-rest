@@ -35,7 +35,7 @@ export default function Cards({
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 300);
+    }, 200);
     return () => clearTimeout(timer);
   }, [page]);
 
