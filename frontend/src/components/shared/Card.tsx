@@ -95,6 +95,7 @@ export default function Card({
           src={cover}
           alt=""
           sizes="100vw"
+          priority
         />
       </div>
       {isHover && (
