@@ -24,7 +24,7 @@ const initialForm: {
   categories: [],
 };
 
-export default function PinCreationForm({ className }: { className?: string }) {
+export default function CreateImageForm({ className }: { className?: string }) {
   const router = useRouter();
   const supabase = createClient();
 
