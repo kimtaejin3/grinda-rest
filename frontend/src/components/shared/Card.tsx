@@ -89,13 +89,13 @@ export default function Card({
     >
       <div className="h-full relative">
         <Image
-          width={1}
-          height={1}
+          width={100}
+          height={100}
           className="w-full h-auto object-cover"
           src={cover}
-          alt=""
+          alt={title}
           sizes="100vw"
-          priority
+          quality={75}
         />
       </div>
       {isHover && (
