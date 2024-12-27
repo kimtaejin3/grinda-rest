@@ -73,7 +73,7 @@ export default function Page() {
         <label htmlFor="password">비밀번호</label>
         <input
           className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
-          type="text"
+          type="password"
           id="password"
           placeholder="비밀번호를 입력해주세요"
           onChange={(e) => setForm({ ...form, password: e.target.value })}

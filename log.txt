@@ -1,0 +1,32 @@
+=== Installation started at Thu Dec 26 10:37:18 KST 2024 ===
+Installing dependencies...
+Scope: all 2 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+Done in 346ms
+Starting the project...
+
+> sns@1.0.0 dev:server /Users/kimtaejin/dev/sns
+> source ./backend/venv/bin/activate && uvicorn backend.main:app --reload
+
+INFO:     Will watch for changes in these directories: ['/Users/kimtaejin/dev/sns']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [3326] using StatReload
+INFO:     Started server process [3328]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [3328]
+INFO:     Stopping reloader process [3326]
+
+> sns@1.0.0 dev:client /Users/kimtaejin/dev/sns
+> cd ./frontend && npx next dev
+
+(node:3370) ExperimentalWarning: CommonJS module /opt/homebrew/lib/node_modules/npm/node_modules/debug/src/node.js is loading ES Module /opt/homebrew/lib/node_modules/npm/node_modules/supports-color/index.js using require().
+Support for loading ES Module in require() is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Done!
+=== Installation completed at Thu Dec 26 10:37:37 KST 2024 ===
