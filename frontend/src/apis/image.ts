@@ -1,8 +1,10 @@
 import api from '.';
 
 const getAllImages = async (page: string, search: string | undefined) => {
-  const append_search = search ? `&search=${search}` : ''
-  const response = await api.get(`/images/?page=${parseInt(page) - 1}&limit=17${append_search}`);
+  const append_search = search ? `&search=${search}` : '';
+  const response = await api.get(
+    `/images/?page=${parseInt(page) - 1}&limit=17${append_search}`
+  );
   return response.data;
 };
 
@@ -31,11 +33,15 @@ const postImage = async (
 };
 
 const likeImage = async (image_id: number) => {
-  const response = await api.post(`/like/${image_id}`, {}, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
+  const response = await api.post(
+    `/like/${image_id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    }
+  );
   return response.data;
 };
 
@@ -48,4 +54,4 @@ const deleteLike = async (image_id: number) => {
   return response.data;
 };
 
-export { deleteLike,getAllImages, likeImage, postImage };
+export { deleteLike, getAllImages, likeImage, postImage };

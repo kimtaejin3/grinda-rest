@@ -7,8 +7,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { likeImage } from '@/apis/image';
 import { $ } from '@/lib/core';
 
-import Download from '../icon/Download';
 import Like from '../icon/Like';
+import ImageDownloadButton from './ImageDownloadButton';
 
 export default function Card({
   id,
@@ -52,26 +52,6 @@ export default function Card({
       queryClient.invalidateQueries({ queryKey: ['images'] });
     },
   });
-
-  const onClickImgLink = useCallback((srcUrl: string, name: string) => {
-    fetch(srcUrl, { method: 'GET' })
-      .then((res) => res.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          window.URL.revokeObjectURL(url);
-        }, 1000);
-        a.remove();
-      })
-      .catch((err) => {
-        console.error('err', err);
-      });
-  }, []);
 
   const handleLikeClick = useCallback((image_id: number) => {
     likeImageMutation(image_id);
@@ -121,12 +101,11 @@ export default function Card({
             <p className="text-smmt mt-5">{content}</p>
           </div>
           {cover && (
-            <button
+            <ImageDownloadButton
               className="mb-3 flex justify-end"
-              onClick={() => onClickImgLink(cover, `fromGindaRest-${title}`)}
-            >
-              <Download />
-            </button>
+              imageUrl={cover}
+              title={title}
+            />
           )}
         </div>
       )}
