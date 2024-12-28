@@ -43,7 +43,7 @@ grinda-rest/
 
 ## Next.js 14 Streaming 기능
 
-Server Side Rendering시 페이지를 컴포넌트 단위로 점진적으로 로딩하여 초기 렌더링 속도를 높였습니다.
+Server Side Rendering시 페이지를 컴포넌트 단위로 점진적으로 로딩하여 초기 로딩 속도를 높였습니다.
 
 ## 🚀 시작하기
 
