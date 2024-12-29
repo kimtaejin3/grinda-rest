@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { postImage } from '@/apis/image';
+import useDragAndDrop from '@/hooks/useDragAndDrop';
 import { $ } from '@/lib/core';
 import { createClient } from '@/utils/supabase/client';
 
@@ -30,7 +31,14 @@ export default function CreateImageForm({ className }: { className?: string }) {
 
   const queryClient = useQueryClient();
 
-  const [dragActive, setDragActive] = useState(false);
+  const { dragActive, handleDragOver, handleDragLeave, handleDrop } =
+    useDragAndDrop<HTMLLabelElement>({
+      onAfterDrop: (event) => {
+        const files = event.dataTransfer.files;
+        setFiles(Array.from(files));
+      },
+    });
+
   const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState(initialForm);
 
@@ -54,25 +62,6 @@ export default function CreateImageForm({ className }: { className?: string }) {
     }
     return null;
   }, [files]);
-
-  const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-    setDragActive(true);
-  };
-
-  const handleDragLeave = () => {
-    setDragActive(false);
-  };
-
-  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-    setDragActive(false);
-    console.log();
-    const files = event.dataTransfer.files;
-    // 파일 처리 로직 추가
-    console.log(files);
-    setFiles(Array.from(files));
-  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
