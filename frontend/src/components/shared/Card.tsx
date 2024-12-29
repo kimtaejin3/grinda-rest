@@ -1,62 +1,31 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { likeImage } from '@/apis/image';
 import { $ } from '@/lib/core';
 
-import Like from '../icon/Like';
 import ImageDownloadButton from './ImageDownloadButton';
+import ImageLikeButton from './ImageLikeButton';
 
-export default function Card({
-  id,
-  className,
-  cover,
-  title,
-  content,
-  like_count,
-}: {
+interface CardProps {
   id: number;
   className?: string;
   cover: string;
   title: string;
   content: string;
   like_count: number;
-}) {
-  const [isHover, setIsHover] = useState(false);
-  const [isLikedButtonHover, setIsLikedButtonHover] = useState(false);
-  const [localLikeCount, setLocalLikeCount] = useState(like_count);
+}
 
-  const queryClient = useQueryClient();
+export default function Card(props: CardProps) {
+  const { id, className, cover, title, content, like_count } = props;
+
+  const [isHover, setIsHover] = useState(false);
+  const [localLikeCount, setLocalLikeCount] = useState(like_count);
 
   useEffect(() => {
     setLocalLikeCount(like_count);
   }, [like_count]);
-
-  const { mutate: likeImageMutation } = useMutation({
-    mutationFn: (image_id: number) => likeImage(image_id),
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['images'] });
-      const previousLikeCount = localLikeCount;
-      setLocalLikeCount(previousLikeCount + 1);
-      return { previousLikeCount };
-    },
-    onError: (error, image_id, context) => {
-      if (context) {
-        setLocalLikeCount(context?.previousLikeCount);
-      }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['images'] });
-    },
-  });
-
-  const handleLikeClick = useCallback((image_id: number) => {
-    likeImageMutation(image_id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div
@@ -84,17 +53,13 @@ export default function Card({
             <div className="flex items-start justify-between ">
               <p className="text-sm">{title}</p>
               <div className="flex items-center gap-1">
-                <button
-                  onClick={() => handleLikeClick(id)}
-                  onMouseEnter={() => setIsLikedButtonHover(true)}
-                  onMouseLeave={() => setIsLikedButtonHover(false)}
-                >
-                  {isLikedButtonHover ? (
-                    <Like fill="red" stroke="red" />
-                  ) : (
-                    <Like />
-                  )}
-                </button>
+                <ImageLikeButton
+                  id={id}
+                  likeCount={localLikeCount}
+                  onLikeCountChange={(likeCount) =>
+                    setLocalLikeCount(likeCount)
+                  }
+                />
                 <p className="text-sm">{localLikeCount}</p>
               </div>
             </div>
