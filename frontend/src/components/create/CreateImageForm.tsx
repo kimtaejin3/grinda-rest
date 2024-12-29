@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { postImage } from '@/apis/image';
 import useDragAndDrop from '@/hooks/useDragAndDrop';
 import { $ } from '@/lib/core';
-import { createClient } from '@/utils/supabase/client';
+import { uploadImage } from '@/utils/supabase/storage';
 
 import Box from '../icon/Box';
 import Camera from '../icon/Camera';
@@ -27,7 +27,6 @@ const initialForm: {
 
 export default function CreateImageForm({ className }: { className?: string }) {
   const router = useRouter();
-  const supabase = createClient();
 
   const queryClient = useQueryClient();
 
@@ -69,26 +68,6 @@ export default function CreateImageForm({ className }: { className?: string }) {
     setFiles(Array.from(files));
   };
 
-  const insertImage = async (file: File) => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('images')
-        .upload(file.name.split('.')[0], file);
-      try {
-        if (error) {
-          throw error;
-        }
-      } catch (error) {
-        console.error(error);
-      }
-
-      return data;
-    } catch (error) {
-      alert('이미지 업로드 해주세요.');
-      console.error(error);
-    }
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!localStorage.getItem('accessToken')) {
@@ -96,21 +75,21 @@ export default function CreateImageForm({ className }: { className?: string }) {
       router.push('/signin');
       return;
     }
-
-    const toastId = toast.loading('핀 생성 중...');
-
-    const data2 = await insertImage(files[0]);
     const { title, content, categories } = form;
-
-    if (!data2) {
-      return;
-    }
     if (title === '' || content === '' || categories.length === 0) {
       alert('제목, 설명, 카테고리를 1개 이상 입력해주세요.');
       return;
     }
 
-    const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${data2.path}`;
+    const toastId = toast.loading('핀 생성 중...');
+
+    const imageInfo = await uploadImage(files[0]);
+
+    if (!imageInfo) {
+      return;
+    }
+
+    const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${imageInfo.path}`;
 
     if (isPending) return;
 
