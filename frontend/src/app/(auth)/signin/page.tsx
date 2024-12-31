@@ -8,8 +8,6 @@ import { toast } from 'react-toastify';
 
 import { signIn } from '@/apis/auth';
 
-// import { useSignInMutation } from '@/store/auth';
-
 export default function Page() {
   const [form, setForm] = useState({
     username: '',

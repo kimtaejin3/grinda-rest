@@ -1,3 +1,5 @@
+import { getAuthHeaders } from '@/utils/auth';
+
 import api from '.';
 
 const getAllImages = async (page: string, search: string | undefined) => {
@@ -23,9 +25,7 @@ const postImage = async (
       categories,
     },
     {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+      headers: getAuthHeaders(),
     }
   );
 
@@ -37,9 +37,7 @@ const likeImage = async (image_id: number) => {
     `/like/${image_id}`,
     {},
     {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+      headers: getAuthHeaders(),
     }
   );
   return response.data;
@@ -47,9 +45,7 @@ const likeImage = async (image_id: number) => {
 
 const deleteLike = async (image_id: number) => {
   const response = await api.delete(`/like/${image_id}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
+    headers: getAuthHeaders(),
   });
   return response.data;
 };
