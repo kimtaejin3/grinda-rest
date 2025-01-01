@@ -2,9 +2,9 @@
 'use client';
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
 
 import { getAllImages } from '@/apis/image';
+import useLoadingDelay from '@/hooks/useLoadingDelay';
 
 import Card from './Card';
 import CardsLoading from './CardsLoading';
@@ -19,7 +19,7 @@ export default function Cards({
   page: string;
   search: string | undefined;
 }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = useLoadingDelay([page, search], 250);
 
   const { data } = useQuery({
     queryKey: ['images', page, search],
@@ -30,14 +30,6 @@ export default function Cards({
   });
 
   const totalPage = Math.ceil(data?.total / 17);
-
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, [page]);
 
   if (isLoading) {
     return <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />;
