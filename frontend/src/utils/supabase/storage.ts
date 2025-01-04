@@ -1,11 +1,13 @@
 import { createClient } from '@/utils/supabase/client';
 
+const BUCKET_NAME = 'images';
+
 export const uploadImage = async (file: File) => {
   const supabase = createClient();
 
   try {
     const { data, error } = await supabase.storage
-      .from('images')
+      .from(BUCKET_NAME)
       .upload(file.name.split('.')[0], file);
 
     if (error) {
