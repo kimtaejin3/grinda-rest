@@ -1,10 +1,7 @@
-// import './globals.css';
+import './globals.css';
 
 import type { Metadata } from 'next';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import bundleCss from '!raw-loader!../styles/tailwindSSR.css';
 import ClientProvider from '@/components/shared/ClientProvider';
 import ToastContainerWrapper from '@/components/shared/ToastContainerWrapper';
 
@@ -21,10 +18,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <style
-          key="custom-tailwind"
-          dangerouslySetInnerHTML={{ __html: bundleCss }}
-        />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>

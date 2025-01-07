@@ -7,7 +7,7 @@
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start",
     "lint": "next lint",
-    "prebuild": "NODE_ENV=production npx tailwindcss -i ./src/app/globals.css -o ./src/styles/tailwindSSR.css --minify",
+    "prebuild": "NODE_ENV=production npx tailwindcss -i ./src/app/globals-ssr.css -o ./src/styles/tailwindSSR.css --minify",
     "generate-api": "openapi --input http://localhost:8000/openapi.json --output ./src/api/generated",
     "generate-types": "openapi-typescript http://localhost:8000/openapi.json --output src/types/api.ts"
   },
