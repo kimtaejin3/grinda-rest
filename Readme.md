@@ -1,4 +1,4 @@
-# 그린다 레스트 (Grinda REST)
+# Pearl-rest
 
 pinterest와 pixabay를 모티브로 한 이미지 공유 플랫폼입니다. 사용자들이 이미지를 업로드하고 공유할 수 있는 서비스를 제공합니다.
 
@@ -27,7 +27,7 @@ pinterest와 pixabay를 모티브로 한 이미지 공유 플랫폼입니다. �
 ## 📁 프로젝트 구조
 
 ```
-grinda-rest/
+pearl-rest/
 ├── backend/           # FastAPI 백엔드
 ├── frontend/          # Next.js 프론트엔드
 └── package.json
@@ -65,11 +65,12 @@ cd grinda-rest
 2. 의존성 설치
 
 ```bash
-# Root 디렉토리에서
+# 프론트엔드
+cd frontend
 pnpm install
 
-# Python 의존성 설치
-cd apps/server
+# 백엔드
+cd backend
 pip install -r requirements.txt
 ```
 
