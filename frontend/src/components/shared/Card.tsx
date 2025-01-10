@@ -43,6 +43,7 @@ export default function Card(props: CardProps) {
           alt={title}
           sizes="100vw"
           quality={75}
+          loading="lazy"
         />
       </div>
       {isHover && (
