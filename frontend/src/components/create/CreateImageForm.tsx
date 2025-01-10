@@ -2,22 +2,18 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { postImage } from '@/apis/image';
+import useImageForm from '@/hooks/useImageForm';
 import { $ } from '@/lib/core';
+import { ImageFormData } from '@/types';
 import { uploadImage } from '@/utils/supabase/storage';
 
+import CategoryInput from './CategoryInput';
 import ImageFileInput from './ImageFileInput';
 
-const initialForm: {
-  title: string;
-  content: string;
-  category: string;
-  categories: string[];
-  files: File[];
-} = {
+const initialForm: ImageFormData = {
   title: '',
   content: '',
   category: '',
@@ -30,7 +26,9 @@ export default function CreateImageForm({ className }: { className?: string }) {
 
   const queryClient = useQueryClient();
 
-  const [form, setForm] = useState(initialForm);
+  const { form, updateField, addCategory, removeCategory } = useImageForm({
+    initialForm,
+  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({
@@ -98,7 +96,7 @@ export default function CreateImageForm({ className }: { className?: string }) {
     <form className={$(className, 'flex gap-10')} onSubmit={handleSubmit}>
       <ImageFileInput
         files={form.files}
-        setFiles={(files) => setForm({ ...form, files })}
+        setFiles={(files) => updateField('files', [...files])}
       />
       <div className="flex-1 flex flex-col gap-6">
         <div>
@@ -108,7 +106,7 @@ export default function CreateImageForm({ className }: { className?: string }) {
             id="title"
             type="text"
             value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            onChange={(e) => updateField('title', e.target.value)}
           />
         </div>
         <div>
@@ -119,56 +117,16 @@ export default function CreateImageForm({ className }: { className?: string }) {
             id="description"
             className="mt-2 min-h-[100px] resize-none border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
             value={form.content}
-            onChange={(e) => setForm({ ...form, content: e.target.value })}
+            onChange={(e) => updateField('content', e.target.value)}
           />
         </div>
-        <div>
-          <label htmlFor="title">카테고리</label>
-          <div className="flex gap-2 items-center">
-            <input
-              className="mt-2 border-[1px] border-slate-300 w-full rounded-2xl px-4 py-2"
-              id="title"
-              type="text"
-              value={form.category}
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
-            />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                if (form.categories.includes(form.category)) return;
-                setForm({
-                  ...form,
-                  categories: [...form.categories, form.category],
-                  category: '',
-                });
-              }}
-              className="shrink-0 bg-gray-500 mt-2 h-9 text-white px-4 rounded-xl"
-            >
-              추가
-            </button>
-          </div>
-          <div className="mt-4 flex gap-2 flex-wrap">
-            {form.categories.map((category) => (
-              <div
-                className="bg-red-400 py-1 px-2 flex items-center gap-2 text-sm rounded-md text-white"
-                key={category}
-              >
-                {category}
-                <button
-                  onClick={() => {
-                    setForm({
-                      ...form,
-                      categories: form.categories.filter((c) => c !== category),
-                    });
-                  }}
-                  className="text-xs"
-                >
-                  x
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        <CategoryInput
+          category={form.category}
+          categories={form.categories}
+          onUpdateCategory={(category) => updateField('category', category)}
+          onAddCategory={addCategory}
+          onRemoveCategory={removeCategory}
+        />
 
         <button className="mt-8 shrink-0 bg-[#e60021] h-9 text-white px-4 rounded-xl">
           게시하기
