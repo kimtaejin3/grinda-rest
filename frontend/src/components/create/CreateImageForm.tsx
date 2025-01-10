@@ -2,27 +2,27 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { postImage } from '@/apis/image';
-import useDragAndDrop from '@/hooks/useDragAndDrop';
 import { $ } from '@/lib/core';
 import { uploadImage } from '@/utils/supabase/storage';
 
-import Box from '../icon/Box';
-import Camera from '../icon/Camera';
+import ImageFileInput from './ImageFileInput';
 
 const initialForm: {
   title: string;
   content: string;
   category: string;
   categories: string[];
+  files: File[];
 } = {
   title: '',
   content: '',
   category: '',
   categories: [],
+  files: [],
 };
 
 export default function CreateImageForm({ className }: { className?: string }) {
@@ -30,15 +30,6 @@ export default function CreateImageForm({ className }: { className?: string }) {
 
   const queryClient = useQueryClient();
 
-  const { dragActive, handleDragOver, handleDragLeave, handleDrop } =
-    useDragAndDrop<HTMLLabelElement>({
-      onAfterDrop: (event) => {
-        const files = event.dataTransfer.files;
-        setFiles(Array.from(files));
-      },
-    });
-
-  const [files, setFiles] = useState<File[]>([]);
   const [form, setForm] = useState(initialForm);
 
   const { mutate, isPending } = useMutation({
@@ -55,19 +46,6 @@ export default function CreateImageForm({ className }: { className?: string }) {
     }) => postImage(image_url, title, content, categories),
   });
 
-  const image_preview = useMemo(() => {
-    if (files.length > 0) {
-      return URL.createObjectURL(files[0]);
-    }
-    return null;
-  }, [files]);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files) return;
-    setFiles(Array.from(files));
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!localStorage.getItem('accessToken')) {
@@ -75,8 +53,13 @@ export default function CreateImageForm({ className }: { className?: string }) {
       router.push('/signin');
       return;
     }
-    const { title, content, categories } = form;
-    if (title === '' || content === '' || categories.length === 0) {
+    const { title, content, categories, files } = form;
+    if (
+      title === '' ||
+      content === '' ||
+      categories.length === 0 ||
+      files.length === 0
+    ) {
       alert('제목, 설명, 카테고리를 1개 이상 입력해주세요.');
       return;
     }
@@ -113,39 +96,10 @@ export default function CreateImageForm({ className }: { className?: string }) {
 
   return (
     <form className={$(className, 'flex gap-10')} onSubmit={handleSubmit}>
-      <div>
-        <label
-          htmlFor="pin"
-          className="cursor-pointer overflow-hidden shrink-0 w-[300px] h-[400px]  bg-gray-200 rounded-2xl flex justify-center items-center"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          onDragLeave={handleDragLeave}
-        >
-          {files.length > 0 && (
-            <div className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              {image_preview && <img src={image_preview} alt="uploaded" />}
-            </div>
-          )}
-          {files.length === 0 && (
-            <div className="flex flex-col items-center">
-              {!dragActive ? <Camera /> : <Box className="w-10 h-10" />}
-              <p className="text-center">
-                파일을 선택하거나
-                <br /> 여기로 끌어다 놓으세요.
-              </p>
-            </div>
-          )}
-        </label>
-        <input
-          id="pin"
-          type="file"
-          accept="image/*"
-          className="hidden"
-          multiple={false}
-          onChange={handleFileChange}
-        />
-      </div>
+      <ImageFileInput
+        files={form.files}
+        setFiles={(files) => setForm({ ...form, files })}
+      />
       <div className="flex-1 flex flex-col gap-6">
         <div>
           <label htmlFor="title">제목</label>
