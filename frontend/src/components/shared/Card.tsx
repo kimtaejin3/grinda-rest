@@ -36,6 +36,7 @@ export default function Card(props: CardProps) {
     >
       <div className="h-full relative">
         <Image
+          loading="lazy"
           width={100}
           height={100}
           className="w-full h-auto object-cover"
@@ -43,7 +44,6 @@ export default function Card(props: CardProps) {
           alt={title}
           sizes="100vw"
           quality={75}
-          loading="lazy"
         />
       </div>
       {isHover && (
