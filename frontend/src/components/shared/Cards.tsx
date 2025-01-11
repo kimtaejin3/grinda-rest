@@ -19,7 +19,7 @@ export default function Cards({
   page: string;
   search: string | undefined;
 }) {
-  const isLoading = useLoadingDelay([page, search], 250);
+  const isLoading = useLoadingDelay([page, search], 500);
 
   const { data } = useQuery({
     queryKey: ['images', page, search],
