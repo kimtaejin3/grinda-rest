@@ -81,11 +81,13 @@ export default function CreateImageForm({ className }: { className?: string }) {
           toast.dismiss(toastId);
           queryClient.invalidateQueries({ queryKey: ['images'] });
           toast.success('핀 생성에 성공했습니다.');
-          router.push('/');
         },
         onError: () => {
           toast.dismiss(toastId);
           toast.error('핀 생성에 실패했습니다.');
+        },
+        onSettled: () => {
+          router.push('/');
         },
       }
     );
