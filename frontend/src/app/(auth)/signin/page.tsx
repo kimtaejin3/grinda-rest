@@ -49,7 +49,6 @@ export default function Page() {
         onError: () => {
           toast.dismiss(toastId);
           toast.error('로그인에 실패했습니다.');
-          router.push('/');
         },
       }
     );
