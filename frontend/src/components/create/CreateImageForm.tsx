@@ -62,8 +62,6 @@ export default function CreateImageForm({ className }: { className?: string }) {
       return;
     }
 
-    const toastId = toast.loading('핀 생성 중...');
-
     const imageInfo = await uploadImage(files[0]);
 
     if (!imageInfo) {
@@ -73,6 +71,8 @@ export default function CreateImageForm({ className }: { className?: string }) {
     const image_url = `https://gmpgjtjmalohyjsespkr.supabase.co/storage/v1/object/public/images/${imageInfo.path}`;
 
     if (isPending) return;
+
+    const toastId = toast.loading('핀 생성 중...');
 
     await mutate(
       { image_url, title, content, categories },
@@ -128,7 +128,7 @@ export default function CreateImageForm({ className }: { className?: string }) {
           onRemoveCategory={removeCategory}
         />
 
-        <button className="mt-8 shrink-0 bg-[#e60021] h-9 text-white px-4 rounded-xl">
+        <button className="mt-12 shrink-0 bg-[#e60021] h-9 text-white px-4 rounded-xl">
           게시하기
         </button>
       </div>
