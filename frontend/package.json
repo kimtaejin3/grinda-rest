@@ -18,6 +18,7 @@
     "@tanstack/react-query-devtools": "^5.62.8",
     "add": "^2.0.6",
     "axios": "^1.7.9",
+    "magic-grid": "^3.4.7",
     "next": "14.2.18",
     "next-nprogress-bar": "^2.4.2",
     "pnpm": "^9.14.4",

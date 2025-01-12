@@ -32,6 +32,9 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
+      magic-grid:
+        specifier: ^3.4.7
+        version: 3.4.7
       next:
         specifier: 14.2.18
         version: 14.2.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1532,6 +1535,9 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  magic-grid@3.4.7:
+    resolution: {integrity: sha512-SPy2dmzAzBr8AysPXH6gT9bE9PYIFX/ZQCf/XRojXFnuyFeHkITV2gp6j/7msrcqSDt6Tu+XUtLfQF79Ugc6/g==}
 
   mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
@@ -4179,6 +4185,8 @@ snapshots:
       js-tokens: 4.0.0
 
   lru-cache@10.4.3: {}
+
+  magic-grid@3.4.7: {}
 
   mdn-data@2.0.28: {}
 

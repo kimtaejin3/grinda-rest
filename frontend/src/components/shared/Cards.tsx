@@ -8,14 +8,13 @@ import useLoadingDelay from '@/hooks/useLoadingDelay';
 
 import Card from './Card';
 import CardsLoading from './CardsLoading';
+import MagicGridWrapper from './MagicGridWrapper';
 import Pagination from './Pagination';
 
 export default function Cards({
-  className,
   page,
   search,
 }: {
-  className?: string;
   page: string;
   search: string | undefined;
 }) {
@@ -37,11 +36,25 @@ export default function Cards({
 
   return (
     <>
-      <div className={`columns-2 md:columns-4 space-y-5 gap-4  ${className}`}>
-        {data?.images.map((elem: any, index: number) => (
-          <Card key={index} cover={elem.image_url} {...elem} />
-        ))}
-      </div>
+      {data && (
+        <MagicGridWrapper
+          items={data.images.length}
+          animate={true}
+          gutter={15}
+          maxColumns={4}
+          className="container"
+        >
+          {data.images.map((elem: any, index: number) => (
+            <Card
+              className="w-[250px]"
+              key={index}
+              cover={elem.image_url}
+              {...elem}
+            />
+          ))}
+        </MagicGridWrapper>
+      )}
+
       <div className="mt-10 relative flex flex-col items-center gap-5">
         <Pagination search={search} page={page} totalPage={totalPage} />
       </div>
