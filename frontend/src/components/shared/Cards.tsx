@@ -36,24 +36,21 @@ export default function Cards({
 
   return (
     <>
-      {data && (
-        <MagicGridWrapper
-          items={data.images.length}
-          animate={true}
-          gutter={15}
-          maxColumns={4}
-          className="container"
-        >
-          {data.images.map((elem: any, index: number) => (
-            <Card
-              className="w-[250px]"
-              key={index}
-              cover={elem.image_url}
-              {...elem}
-            />
-          ))}
-        </MagicGridWrapper>
-      )}
+      <MagicGridWrapper
+        items={data.images.length}
+        // animate={true}
+        gutter={15}
+        maxColumns={4}
+      >
+        {data.images.map((elem: any, index: number) => (
+          <Card
+            className="w-[250px]"
+            key={index}
+            cover={elem.image_url}
+            {...elem}
+          />
+        ))}
+      </MagicGridWrapper>
 
       <div className="mt-10 relative flex flex-col items-center gap-5">
         <Pagination search={search} page={page} totalPage={totalPage} />
