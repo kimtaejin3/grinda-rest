@@ -34,17 +34,24 @@ const MagicGridWrapper = ({
 
     grid.positionItems();
 
-    setTimeout(() => {
-      grid.positionItems();
-    }, 100);
+    for (let i = 1; i < 20; i++) {
+      setTimeout(() => {
+        grid.positionItems();
+      }, 100 * i);
+    }
 
     return () => {
       window.removeEventListener('resize', resize);
     };
-  });
+  }, []);
 
   return (
-    <div ref={container as React.RefObject<HTMLDivElement>}>{children}</div>
+    <div
+      // className="min-h-[500px]"
+      ref={container as React.RefObject<HTMLDivElement>}
+    >
+      {children}
+    </div>
   );
 };
 

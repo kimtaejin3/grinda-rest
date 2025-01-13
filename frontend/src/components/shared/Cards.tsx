@@ -33,15 +33,9 @@ export default function Cards({
   if (isLoading) {
     return <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />;
   }
-
   return (
     <>
-      <MagicGridWrapper
-        items={data.images.length}
-        // animate={true}
-        gutter={15}
-        maxColumns={4}
-      >
+      <MagicGridWrapper items={data.images.length} gutter={15} maxColumns={4}>
         {data.images.map((elem: any, index: number) => (
           <Card
             className="w-[250px] min-h-[250px]"
