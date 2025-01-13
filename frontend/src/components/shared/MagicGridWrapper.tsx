@@ -17,11 +17,11 @@ const MagicGridWrapper = ({
     let timeout: NodeJS.Timeout | null = null;
 
     const resize = () => {
-      if (!timeout)
-        timeout = setTimeout(() => {
-          grid && grid.positionItems();
-          timeout = null;
-        }, 200);
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        grid && grid.positionItems();
+        timeout = null;
+      }, 200);
     };
 
     if (!grid) {

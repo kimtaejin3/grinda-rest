@@ -44,7 +44,7 @@ export default function Cards({
       >
         {data.images.map((elem: any, index: number) => (
           <Card
-            className="w-[250px]"
+            className="w-[250px] min-h-[250px]"
             key={index}
             cover={elem.image_url}
             {...elem}
