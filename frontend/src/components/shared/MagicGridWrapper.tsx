@@ -5,9 +5,11 @@ import React, { useEffect, useRef } from 'react';
 
 const MagicGridWrapper = ({
   children,
+  reposition,
   ...props
 }: {
   children: React.ReactNode;
+  reposition: boolean;
   [key: string]: any;
 }) => {
   const container = useRef<HTMLDivElement>();
@@ -27,6 +29,7 @@ const MagicGridWrapper = ({
     if (!grid) {
       grid = new MagicGrid({
         container: container.current as HTMLElement,
+        static: true,
         ...props,
       });
       window.addEventListener('resize', resize);
@@ -34,16 +37,16 @@ const MagicGridWrapper = ({
 
     grid.positionItems();
 
-    for (let i = 1; i < 20; i++) {
+    for (let i = 0; i < 25; i++) {
       setTimeout(() => {
         grid.positionItems();
-      }, 100 * i);
+      }, 150 * i);
     }
 
     return () => {
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [reposition]);
 
   return (
     <div

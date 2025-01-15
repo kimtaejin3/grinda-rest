@@ -2,10 +2,10 @@ import { getAuthHeaders } from '@/utils/auth';
 
 import api from '.';
 
-const getAllImages = async (page: string, search: string | undefined) => {
+const getAllImages = async (page: number, search: string | undefined) => {
   const append_search = search ? `&search=${search}` : '';
   const response = await api.get(
-    `/images/?page=${parseInt(page) - 1}&limit=17${append_search}`
+    `/images/?page=${page}&limit=10${append_search}`
   );
   return response.data;
 };

@@ -9,7 +9,6 @@ export default async function Home({
 }: {
   searchParams: { page: string; search: string | undefined };
 }) {
-  const page = searchParams.page ?? '1';
   const search = searchParams.search;
 
   return (
@@ -20,7 +19,7 @@ export default async function Home({
           <CardsLoading className="mt-3" columns={4} itemsPerColumn={5} />
         }
       >
-        <CardsHydrate page={page} search={search} />
+        <CardsHydrate search={search} />
       </Suspense>
     </div>
   );
