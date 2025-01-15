@@ -67,6 +67,9 @@ export default function Cards({ search }: { search: string | undefined }) {
           ))
         )}
       </MagicGridWrapper>
+      {isFetchingNextPage && (
+        <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />
+      )}
       <div ref={ref}>here</div>
 
       {/* <div className="mt-10 relative flex flex-col items-center gap-5">
