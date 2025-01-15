@@ -2,6 +2,13 @@
 
 pinterest와 pixabay를 모티브로 한 이미지 공유 플랫폼입니다. 사용자들이 이미지를 업로드하고 공유할 수 있는 서비스를 제공합니다.
 
+현재 페이지네이션 기능으로 동작하고 있습니다.
+
+무한 스크롤 버전
+[https://grinda-rest-git-feat-magic-grid-kimtaejin3s-projects.vercel.app/](https://grinda-rest-git-feat-magic-grid-kimtaejin3s-projects.vercel.app/)
+
+masonry 레이아웃 라이브러리를 사용하고 무한 스크롤 기능을 구현하고 있습니다. 해당 버전은 문제가 많기에 계속 공부 후 수정하고 있습니다.
+
 ## 🚀 기술 스택
 
 ### Backend
