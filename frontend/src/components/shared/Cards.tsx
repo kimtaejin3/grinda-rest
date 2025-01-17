@@ -13,10 +13,9 @@ import CardsLoading from './CardsLoading';
 import MagicGridWrapper from './MagicGridWrapper';
 
 export default function Cards({ search }: { search: string | undefined }) {
-  const isLoading = useLoadingDelay([0, search], 500);
   const [reposition, setReposition] = useState(false);
-  const { ref, inView } = useInView<HTMLDivElement>();
-
+  const { ref, inView } = useInView<HTMLDivElement>({});
+  const  isLoading  = useLoadingDelay([0, search], 100);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ['images', search],
@@ -34,15 +33,15 @@ export default function Cards({ search }: { search: string | undefined }) {
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
-      setReposition(true);
+      setReposition((prev) => !prev);
       setTimeout(() => {
-        setReposition(false);
+        setReposition((prev) => !prev);
       }, 100);
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isLoading) {
-    return <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />;
+    return <CardsLoading columns={4} itemsPerColumn={5}  />;
   }
 
   return (
@@ -59,7 +58,7 @@ export default function Cards({ search }: { search: string | undefined }) {
         {data?.pages.flatMap((page) =>
           page.images.map((elem: any) => (
             <Card
-              className="w-[250px] min-h-[250px]"
+              className="w-[250px]"
               key={elem.id}
               cover={elem.image_url}
               {...elem}
@@ -67,14 +66,7 @@ export default function Cards({ search }: { search: string | undefined }) {
           ))
         )}
       </MagicGridWrapper>
-      {isFetchingNextPage && (
-        <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />
-      )}
       <div ref={ref}>here</div>
-
-      {/* <div className="mt-10 relative flex flex-col items-center gap-5">
-        <Pagination search={search} page={page} totalPage={totalPage} />
-      </div> */}
     </>
   );
 }

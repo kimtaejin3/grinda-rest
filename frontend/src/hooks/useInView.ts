@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function useInView<T extends HTMLElement>(options = {}) {
+export default function useInView<T extends HTMLElement>(options?: IntersectionObserverInit) {
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
 
@@ -19,7 +19,7 @@ export default function useInView<T extends HTMLElement>(options = {}) {
     return () => {
       observer.disconnect();
     };
-  }, [options]);
+  }, [ref, options]);
 
   return { ref, inView };
 }

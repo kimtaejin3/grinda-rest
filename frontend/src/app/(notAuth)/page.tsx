@@ -1,3 +1,4 @@
+// import { Suspense } from 'react';
 import { Suspense } from 'react';
 
 import CardsHydrate from '@/components/shared/CardsHydrate';

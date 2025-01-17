@@ -35,7 +35,9 @@ const MagicGridWrapper = ({
       window.addEventListener('resize', resize);
     }
 
-    grid.positionItems();
+    setTimeout(() => {
+      grid.positionItems();
+    }, 0);
 
     for (let i = 0; i < 25; i++) {
       setTimeout(() => {
