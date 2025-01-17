@@ -29,14 +29,14 @@ export default function Card(props: CardProps) {
     <div
       className={$(
         className,
-        'rounded-lg overflow-hidden cursor-pointer relative hover:scale-105 transition-all duration-300 bg-gray-200'
+        'rounded-lg overflow-hidden cursor-pointer relative hover:scale-105 bg-gray-200'
       )}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
       <div className="h-full relative">
         <Image
-          loading="lazy"
+          // loading="lazy"
           width={100}
           height={100}
           className="w-full h-auto object-cover"

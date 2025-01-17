@@ -14,7 +14,7 @@ export default function CategoryInput({
   onRemoveCategory,
 }: CategoryInputProps) {
   return (
-    <div>
+    <div className="relative">
       <label htmlFor="title">카테고리</label>
       <div className="flex gap-2 items-center">
         <input
@@ -34,7 +34,7 @@ export default function CategoryInput({
           추가
         </button>
       </div>
-      <div className="mt-4 flex gap-2 flex-wrap">
+      <div className="mt-4 flex gap-2 flex-wrap absolute">
         {categories.map((category) => (
           <div
             className="bg-red-400 py-1 px-2 flex items-center gap-2 text-sm rounded-md text-white"
