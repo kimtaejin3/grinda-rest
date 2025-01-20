@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 
 import { $ } from '@/lib/core';
 
-import ImageDownloadButton from './ImageDownloadButton';
-import ImageLikeButton from './ImageLikeButton';
+import ImageDownloadButton from '../create/ImageDownloadButton';
+import ImageLikeButton from '../create/ImageLikeButton';
 
 interface CardProps {
   id: number;

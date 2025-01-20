@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
-import CardsHydrate from '@/components/shared/CardsHydrate';
-import CardsLoading from '@/components/shared/CardsLoading';
+import CardsHydrate from '@/components/main/CardsHydrate';
+import CardsLoading from '@/components/main/CardsLoading';
 import ProgressWrap from '@/components/shared/ProgressWrap';
 
 export default async function Home({

@@ -6,9 +6,9 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getAllImages } from '@/apis/image';
 import useLoadingDelay from '@/hooks/useLoadingDelay';
 
+import Pagination from '../shared/Pagination';
 import Card from './Card';
 import CardsLoading from './CardsLoading';
-import Pagination from './Pagination';
 
 export default function Cards({
   className,
