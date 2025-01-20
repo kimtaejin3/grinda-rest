@@ -5,6 +5,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { getAllImages } from '@/apis/image';
 import useLoadingDelay from '@/hooks/useLoadingDelay';
+import { ImageResponse } from '@/types';
 
 import Pagination from '../shared/Pagination';
 import Card from './Card';
@@ -21,7 +22,7 @@ export default function Cards({
 }) {
   const isLoading = useLoadingDelay([page, search], 500);
 
-  const { data } = useQuery({
+  const { data } = useQuery<ImageResponse>({
     queryKey: ['images', page, search],
     queryFn: () => getAllImages(page, search),
     staleTime: 1000 * 60 * 5,
@@ -29,7 +30,7 @@ export default function Cards({
     placeholderData: keepPreviousData,
   });
 
-  const totalPage = Math.ceil(data?.total / 17);
+  const totalPage = Math.ceil((data?.total ?? 0) / 17);
 
   if (isLoading) {
     return <CardsLoading className="mt-3" columns={4} itemsPerColumn={4} />;
@@ -38,8 +39,8 @@ export default function Cards({
   return (
     <>
       <div className={`columns-2 md:columns-4 space-y-5 gap-4  ${className}`}>
-        {data?.images.map((elem: any, index: number) => (
-          <Card key={index} cover={elem.image_url} {...elem} />
+        {data?.images.map((image) => (
+          <Card key={image.id} cover={image.image_url} {...image} />
         ))}
       </div>
       <div className="mt-10 relative flex flex-col items-center gap-5">

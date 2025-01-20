@@ -7,13 +7,12 @@ import { toast } from 'react-toastify';
 import { postImage } from '@/apis/image';
 import useImageForm from '@/hooks/useImageForm';
 import { $ } from '@/lib/core';
-import { ImageFormData } from '@/types';
 import { uploadImage } from '@/utils/supabase/storage';
 
 import CategoryInput from './CategoryInput';
 import ImageFileInput from './ImageFileInput';
 
-const initialForm: ImageFormData = {
+const initialForm = {
   title: '',
   content: '',
   category: '',
