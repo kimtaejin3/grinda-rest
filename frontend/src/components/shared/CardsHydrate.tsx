@@ -15,9 +15,10 @@ export default async function CardsHydrate({
 }) {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['images', 0, search],
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['images', search],
     queryFn: () => getAllImages(0, search),
+    initialPageParam: 0,
   });
 
   const dehydratedState = dehydrate(queryClient);

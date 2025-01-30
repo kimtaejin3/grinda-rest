@@ -5,7 +5,7 @@ import api from '.';
 const getAllImages = async (page: number, search: string | undefined) => {
   const append_search = search ? `&search=${search}` : '';
   const response = await api.get(
-    `/images/?page=${page}&limit=10${append_search}`
+    `/images/?page=${page}&limit=20${append_search}`
   );
   return response.data;
 };
@@ -16,7 +16,6 @@ const postImage = async (
   content: string,
   categories: string[]
 ) => {
-
   const response = await api.post(
     '/image/',
     {
